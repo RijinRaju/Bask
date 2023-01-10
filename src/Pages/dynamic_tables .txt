@@ -1,0 +1,55 @@
+import React,{useState} from 'react'
+import ContentEditable from'react-contenteditable'
+
+function AddTask() {
+
+  const[questionField,setQuestionField] = useState([{
+    question:'',answer:''
+  }])
+
+  const handleFormChange=(index,e)=>{
+
+    let data = [...questionField]
+    data[index][e.target.name] = e.target.value
+    setQuestionField(data)
+    }
+
+    const addField=()=>{
+
+
+       let newInputField = {name : '',age : ''}
+       setQuestionField([...questionField,newInputField])
+    }
+  return (
+    <div>
+      <ContentEditable
+        style={{backgroundColor:'white',height:'10vh'}}
+      />
+      <form>
+        {questionField.map((input,index)=>{
+        return(
+          <div key={index}>
+            <input
+              name='name'
+              placeholder='Name'
+            value={input.name}
+            onChange={(e)=>handleFormChange(index,e)}
+            />
+            <input
+              name='age'
+              placeholder='Age'
+              value={input.age}
+              onChange={(e) => handleFormChange(index, e)}
+            />
+           
+          </div>
+        ) 
+        })
+        }
+      </form>
+         <button onClick={addField}>Add more</button>
+    </div>
+  )
+}
+
+export default AddTask

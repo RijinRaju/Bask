@@ -1,0 +1,13 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;1,100&display=swap');
+
+body{
+      font-family: 'Roboto', sans-serif;
+      background-image: linear-gradient(#ececec,#eaeaea);
+} */
+.signup_box{
+     background-color: #bdbfc2;
+
+}
+Button:hover{
+      background-color: yellow;
+}

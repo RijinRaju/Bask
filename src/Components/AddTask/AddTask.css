@@ -1,0 +1,21 @@
+.qus_area{
+
+    margin: 10px;
+    resize: none;
+    overflow: auto;
+
+   
+}
+
+.add_btn{
+     display: none;
+}
+
+.card1_div{
+padding: 2rem;
+}
+
+.crd_btn{
+    margin: 4vh;
+
+}
