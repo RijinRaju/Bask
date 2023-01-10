@@ -35,7 +35,8 @@ function Room(props) {
   const [client,setClient] = useState({})
   const[allmsg,setAllMsg] = useState([])
   const[advisor,setAdvisor] = useState([])
-  const[suser,setSuser] = useState(0)
+  const[endUser,setEndUser] = useState(0)
+
 
   !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id); 
   if(props.data === 'student'){
@@ -62,7 +63,7 @@ function Room(props) {
 
   if (receiver === "") return;
     setClient( new W3CWebsocket(
-      "ws://127.0.0.1:8000/ws/chat/" + receiver + "/" + user + "/"
+      "ws://127.0.0.1:8000/ws/chat/" + receiver + "/" + user + "/"+endUser+"/"
     )
     )
     client.onopen = () => {
@@ -120,6 +121,7 @@ let sender = (e) => {
                       key={student.id}
                       onClick={(e) => {
                         setReceiver(student.student.id);
+                        setEndUser(student.student.id)
                         setMsg("");
                         axios
                           .post("http://127.0.0.1:8000/advisor/chat_record", {
@@ -258,6 +260,7 @@ let sender = (e) => {
                       key={advisor.id}
                       onClick={(e) => {
                         setReceiver(user);
+                        setEndUser(advisor.id)
                         setMsg("");
                         axios
                           .post("http://127.0.0.1:8000/advisor/chat_record", {
