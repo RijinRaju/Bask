@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
@@ -26,6 +26,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import jwtDecode from 'jwt-decode';
 function Report() {
  
  const {
@@ -37,11 +38,26 @@ function Report() {
 
 
   const [open, setOpen] = useState(false);
-  const [taskOpen, setTaskOpen] = useState(false);
-
-  const [advisors, setAdvisor] = useState([]);
+  const[batch,setBatch]   = useState([])
+  const [advisor, setAdvisor] = useState(0);
   const [lists, setLists] = useState([]);
  
+!advisor && setAdvisor(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
+useEffect(()=>{
+
+    axios.post("http://127.0.0.1:8000/advisor/adv_batchlst",{
+        user:advisor,
+        
+    }).then(res=>{
+        setBatch(res.data)
+    })
+
+
+    axios.post("http://127.0.0.1:8000/advisor/list_reports").then(res=>{
+        setLists(res.data)
+    })
+},[])
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -50,171 +66,193 @@ function Report() {
     setOpen(false);
   };
 
-  const handleTaskOpen = () => {
-    setTaskOpen(true);
-  };
-
-  const handleTaskClose = () => {
-    setTaskOpen(false);
-  };
+ 
 
   const BatchFormSubmit = (e) => {
-    console.log(e.advisor);
+    console.log(e.students);
     axios
-      .post("http://127.0.0.1:8000/admin/add_batch", {
-        batch_advisor: e.advisor,
-        location: e.location,
-        Batch_name: e.batch_name,
+      .post("http://127.0.0.1:8000/advisor/add_report", {
+        students: e.students,
+        eliminated: e.eliminated,
+        note: e.notes,
+        batch: e.batch,
       })
       .then((res) => {
+          console.log(res.data)
         setLists(res.data);
         handleClickClose();
       });
   };
     return (
-    <div>
       <div>
-        <span className="font-sans text-blue-700 font-semibold text-lg">
-          Add Batch{" "}
-        </span>
-        <Grid container spacing={3}>
-          {/* listing and creating batches */}
+        <div>
+          <span className="font-sans text-blue-700 font-semibold text-lg">
+            Add Batch{" "}
+          </span>
+          <Grid container spacing={3}>
+            {/* listing and creating batches */}
 
-          {lists.map((list) => {
-            return (
-              <Grid item sx={{ m: 2 }} className="rounded-xl ">
-                <Paper container elevation={5} sx={{ width: "500px" }}>
-                  <Card sx={{ backgroundColor: "black" }}></Card>
-                  <nav aria-label="main mailbox folders">
-                    <List>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <img src={batch} width="25" height="25" />
-                          </ListItemIcon>
-                          <ListItemText primary={list.Batch_name} />
-                        </ListItemButton>
-                      </ListItem>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <img src={location} width="25" height="25" />
-                          </ListItemIcon>
-                          <ListItemText primary={list.location} />
-                        </ListItemButton>
-                      </ListItem>
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <img src={date} width="25" height="25" />
-                          </ListItemIcon>
-                          <ListItemText primary={list.start_date} />
-                        </ListItemButton>
-                      </ListItem>
-                      <Divider />
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                           
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={list.batch_advisor.first_name}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    </List>
-                  </nav>
-                </Paper>
-              </Grid>
-            );
-          })}
-
-          <MenuItem onClick={handleClickOpen}>
-            <AddCircleOutlineIcon />
-            Add Report
-          </MenuItem>
-        </Grid>
-
-        {/* dialog box for adding batch */}
-
-        <Dialog open={open}>
-          <DialogTitle>Batch</DialogTitle>
-          <Box
-            component="form"
-            onSubmit={handleSubmit((e) => BatchFormSubmit(e))}
-          >
-            <DialogContent>
-              <DialogContentText>Add new batch Details</DialogContentText>
-              <Grid container spacing={2}>
-                <Grid xs={6} sx={{ m: 2 }}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="batch_name"
-                    label="Name"
-                    name="batch_name"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    inputProps={{ style: { textTransform: "uppercase" } }}
-                    {...register("batch_name", {
-                      required: true,
-                    })}
-                  />
-                  {errors.batch_name && (
-                    <span style={{ color: "red" }}>This field is required</span>
-                  )}
+            {lists.map((list) => {
+              return (
+                <Grid item sx={{ m: 2 }} className="rounded-xl ">
+                  <Paper container elevation={5} sx={{ width: "500px" }}>
+                    <Card sx={{ backgroundColor: "black" }}></Card>
+                    <nav aria-label="main mailbox folders">
+                      <List>
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <img src={batch} width="25" height="25" />
+                            </ListItemIcon>
+                            <ListItemText primary={list.students} />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <img src={location} width="25" height="25" />
+                            </ListItemIcon>
+                            <ListItemText primary={list.eliminated} />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <img src={date} width="25" height="25" />
+                            </ListItemIcon>
+                            <ListItemText primary={list.date} />
+                          </ListItemButton>
+                        </ListItem>
+                        <Divider />
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon></ListItemIcon>
+                            <ListItemText
+                              primary={list.note}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      </List>
+                    </nav>
+                  </Paper>
                 </Grid>
-                <Grid xs={4} sx={{ m: 2 }}>
-                  <TextField
-                    margin="dense"
-                    id="location"
-                    label="Location"
-                    type="text"
-                    name="location"
-                    fullWidth
-                    variant="outlined"
-                    {...register("location", {
-                      required: true,
-                    })}
-                  />
-                  {errors.location && (
-                    <span style={{ color: "red" }}>This field is required</span>
-                  )}
+              );
+            })}
+
+            <MenuItem onClick={handleClickOpen} sx={{ marginTop: 10 }}>
+              <AddCircleOutlineIcon />
+              Add Report
+            </MenuItem>
+          </Grid>
+
+          {/* dialog box for adding batch */}
+
+          <Dialog open={open}>
+            <DialogTitle>Report</DialogTitle>
+            <Box
+              component="form"
+              onSubmit={handleSubmit((e) => BatchFormSubmit(e))}
+            >
+              <DialogContent>
+                <DialogContentText>Batch week Reports</DialogContentText>
+                <Grid container spacing={2}>
+                  <Grid xs={6} sx={{ m: 2 }}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="students"
+                      helperText="No. of students"
+                      name="students"
+                      type="number"
+                      fullWidth
+                      variant="outlined"
+                      inputProps={{ style: { textTransform: "uppercase" } }}
+                      {...register("students", {
+                        required: true,
+                      })}
+                    />
+                    {errors.students && (
+                      <span style={{ color: "red" }}>
+                        This field is required
+                      </span>
+                    )}
+                  </Grid>
+                  <Grid xs={4} sx={{ m: 2 }}>
+                    <TextField
+                      margin="dense"
+                      id="elimiated"
+                      helperText="No. Eliminated Students"
+                      type="number"
+                      name="eliminated"
+                      fullWidth
+                      variant="outlined"
+                      {...register("eliminated", {
+                        required: true,
+                      })}
+                    />
+                    {errors.eliminated && (
+                      <span style={{ color: "red" }}>
+                        This field is required
+                      </span>
+                    )}
+                  </Grid>
+                  <Grid xs={4} sx={{ m: 2 }}>
+                    <Select
+                      name="batch"
+                      id="batch"
+                      defaultValue={batch.id}
+                      sx={{ input: { color: "white" },width:250 }}
+                      InputLabelProps={{
+                        style: { color: "#fff" },
+                      }}
+                      {...register("batch",{
+                          required:true,
+                      })}
+                    >
+                      {batch && batch.map((batch) => (
+                        <MenuItem value={batch.id} key={batch.id}>
+                          {batch.Batch_name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {errors.batch && (
+                      <span style={{ color: "red" }}>
+                        This field is required
+                      </span>
+                    )}
+                  </Grid>
+                  <Grid xs={12} sx={{ m: 2 }}>
+                    <TextField
+                      margin="dense"
+                      id="location"
+                      helperText="Notes"
+                      type="text"
+                      name="notes"
+                      fullWidth
+                      multiline
+                      rows="8"
+                      variant="outlined"
+                      {...register("notes", {
+                        required: true,
+                      })}
+                    />
+                    {errors.eliminated && (
+                      <span style={{ color: "red" }}>
+                        This field is required
+                      </span>
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid xs={4} sx={{ m: 2 }}>
-                  <InputLabel>Advisors</InputLabel>
-                  <Select
-                    id="advisors"
-                    name="advisor"
-                    label="Advisor"
-                    sx={{
-                      width: 350,
-                    }}
-                    value={advisors.id}
-                    {...register("advisor", {
-                      required: true,
-                    })}
-                  >
-                    {advisors.map((adv) => (
-                      <MenuItem value={adv.id}>{adv.first_name}</MenuItem>
-                    ))}
-                  </Select>
-                  {errors.advisor && (
-                    <span style={{ color: "red" }}>This field is required</span>
-                  )}
-                </Grid>
-              </Grid>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClickClose}>Cancel</Button>
-              <Button type="submit">Create</Button>
-            </DialogActions>
-          </Box>
-        </Dialog>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClickClose}>Cancel</Button>
+                <Button type="submit">Create</Button>
+              </DialogActions>
+            </Box>
+          </Dialog>
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default Report

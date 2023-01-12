@@ -18,7 +18,9 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
+import background from "../../Assests/chat/background.jpg"
 
+import Typography from '@mui/material/Typography'
 function Room(props) {
 
 
@@ -28,6 +30,8 @@ function Room(props) {
     handleSubmit,
   } = useForm();
 
+  const clearText = useRef()
+
   const [student, setStudent] = useState([]);
   const [user, setUser] = useState(0);
   const [msg, setMsg] = useState([]);
@@ -36,12 +40,17 @@ function Room(props) {
   const[allmsg,setAllMsg] = useState([])
   const[advisor,setAdvisor] = useState([])
   const[endUser,setEndUser] = useState(0)
+  const[room_id,setRoomId] = useState(0)
+  const[displayName,setDisplayName] = useState('')
 
-
-  !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id); 
+  
   if(props.data === 'student'){
      !user &&  setUser(jwtDecode(localStorage.getItem("studentToken")).user_id);
      console.log(user)
+  }
+  else{
+!user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
+
   }
   
 
@@ -54,12 +63,13 @@ function Room(props) {
         setStudent(res.data);
       });
 
-
+    if(props.data == "student"){
     axios.post("http://127.0.0.1:8000/adv_list",{
       id:user
     }).then((res)=>{
       setAdvisor(res.data)
     })
+  }
 
   if (receiver === "") return;
     setClient( new W3CWebsocket(
@@ -78,11 +88,13 @@ let sender = (e) => {
   client.send(JSON.stringify({ message: e.message }));
   console.log("message is send");
 
-  client.onmessage = (e)=>{
-    const value = JSON.parse(e.data)
-  console.log(value);
-      setMsg([...msg,value.message])
-  }
+  client.onmessage = (e) => {
+    const value = JSON.parse(e.data);
+    console.log("values..", value);
+    setMsg([...msg, value.message]);
+    setRoomId(value.room);
+  };
+
 };
 
 
@@ -121,8 +133,11 @@ let sender = (e) => {
                       key={student.id}
                       onClick={(e) => {
                         setReceiver(student.student.id);
-                        setEndUser(student.student.id)
+                        setDisplayName(student.student.first_name);
+                        setEndUser(student.student.id);
                         setMsg("");
+                        setAllMsg("");
+
                         axios
                           .post("http://127.0.0.1:8000/advisor/chat_record", {
                             sender: user,
@@ -134,7 +149,9 @@ let sender = (e) => {
                           });
                       }}
                     >
-                      <ListItemIcon></ListItemIcon>
+                      <ListItemIcon>
+                        <Avatar alt={student.student.first_name}></Avatar>
+                      </ListItemIcon>
                       <ListItemText primary={student.student.first_name} />
                     </ListItemButton>
                   ))}
@@ -145,56 +162,91 @@ let sender = (e) => {
           <Grid item xs={8}>
             <Paper
               component="form"
-              sx={{ ml: 1 }}
+              sx={{ ml: 1, backgroundColor: "#F3EFE0" }}
               onSubmit={handleSubmit((e) => sender(e))}
             >
-              <Paper sx={{ height: "71vh", overflowY: "scroll" }}>
-                {allmsg.map((msg) =>(
-                  console.log(msg,"user",user),
-                  msg.receiver !== user ? (
-                    <Box
-                      key={msg.id}
+              {receiver && (
+                <Paper
+                  sx={{
+                    height: 40,
+                  }}
+                >
+                  <Stack direction="row">
+                    <Avatar
+                      alt={advisor.first_name}
                       sx={{
-                        width: 200,
-                        height: 50,
-                        backgroundColor: "#8b00f7",
-                        borderRadius: "20px 20px 0px 20px",
-                        mt: 2,
-                        m: 3,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        ml: 1,
+                      }}
+                    ></Avatar>
+                    <Typography
+                      sx={{
+                        m: 1,
                       }}
                     >
-                      {msg.message}
-                    </Box>
-                  ) : (
-                    <Box
-                      key={msg.id}
-                      sx={{
-                        width: 200,
-                        height: 50,
-                        backgroundColor: "gray",
-                        borderRadius: "20px 20px 0px 20px",
-                        mt: 2,
-                        m: 3,
-                        ml:50,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {msg.message}
-                    </Box>
+                      {" "}
+                      {displayName.toUpperCase()}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}
+              <Paper
+                sx={{
+                  height: "65vh",
+                  overflowY: "scroll",
+                  backgroundImage: `url(${background})`,
+                }}
+              >
+                {allmsg ? (
+                  allmsg.map((msg) =>
+                    msg.sender.id == user ? (
+                      <Box
+                        key={msg.id}
+                        sx={{
+                          width: 200,
+                          height: 50,
+                          backgroundColor: "#B2B2B2",
+                        
+                          borderRadius: "20px 20px 0px 20px",
+                          mt: 2,
+                          m: 3,
+                          ml: 50,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {msg.message}
+                      </Box>
+                    ) : (
+                      <Box
+                        key={msg.id}
+                        sx={{
+                          width: 200,
+                          height: 50,
+                          backgroundColor: "#B2B2B2",
+                          borderRadius: "20px 20px 0px 20px",
+                          mt: 2,
+                          m: 3,
+
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {msg.message}
+                      </Box>
+                    )
                   )
-                ))}
+                ) : (
+                  <Typography></Typography>
+                )}
                 {msg != "" &&
                   msg.map((msg) => (
                     <Box
                       sx={{
                         width: 200,
                         height: 50,
-                        backgroundColor: "#8b00f7",
+                        backgroundColor: "#B2B2B2",
                         borderRadius: "20px 20px 20px 0px",
                         mt: 2,
                         m: 3,
@@ -216,6 +268,7 @@ let sender = (e) => {
                 <TextField
                   variant="standard"
                   name="message"
+                  ref={clearText}
                   placeholder=" write something...."
                   style={{ width: "90vh", height: "5vh", margin: "2vh" }}
                   className="bg-gray-300 rounded-lg "
@@ -260,8 +313,10 @@ let sender = (e) => {
                       key={advisor.id}
                       onClick={(e) => {
                         setReceiver(user);
-                        setEndUser(advisor.id)
+                        setDisplayName(advisor.first_name);
+                        setEndUser(advisor.id);
                         setMsg("");
+                        setAllMsg("");
                         axios
                           .post("http://127.0.0.1:8000/advisor/chat_record", {
                             sender: advisor.id,
@@ -286,28 +341,79 @@ let sender = (e) => {
           <Grid item xs={8}>
             <Paper
               component="form"
-              sx={{ ml: 1 }}
+              sx={{ ml: 1, backgroundImage: `url(${background})` }}
               onSubmit={handleSubmit((e) => sender(e))}
             >
-              <Paper sx={{ height: "71vh", overflowY: "scroll" }}>
-                {allmsg.map((msg) => (
-                  <Box
-                    key={msg.id}
-                    sx={{
-                      width: 200,
-                      height: 50,
-                      backgroundColor: "#8b00f7",
-                      borderRadius: "20px 20px 0px 20px",
-                      mt: 2,
-                      m: 3,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    {msg.message}
-                  </Box>
-                ))}
+              {receiver && (
+                <Paper
+                  sx={{
+                    height: 40,
+                  }}
+                >
+                  <Stack direction="row">
+                    <Avatar
+                      alt={advisor.first_name}
+                      sx={{
+                        ml: 1,
+                      }}
+                    ></Avatar>
+                    <Typography
+                      sx={{
+                        m: 1,
+                      }}
+                    >
+                      {" "}
+                      {displayName.toUpperCase()}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              )}{" "}
+              <Paper
+                sx={{
+                  height: "65vh",
+                  overflowY: "scroll",
+                  backgroundImage: `url(${background})`,
+                }}
+              >
+                {allmsg &&
+                  allmsg.map((msg) =>
+                    msg.sender.id == user ? (
+                      <Box
+                        key={msg.id}
+                        sx={{
+                          width: 200,
+                          height: 50,
+                          backgroundColor: "#8b00f7",
+                          borderRadius: "20px 20px 20px 0px",
+                          mt: 2,
+                          m: 3,
+                          ml: 60,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {msg.message}
+                      </Box>
+                    ) : (
+                      <Box
+                        key={msg.id}
+                        sx={{
+                          width: 200,
+                          height: 50,
+                          backgroundColor: "#8b00f7",
+                          borderRadius: "20px 20px 0px 20px",
+                          mt: 2,
+                          m: 3,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        {msg.message}
+                      </Box>
+                    )
+                  )}
                 {msg != "" &&
                   msg.map((msg) => (
                     <Box

@@ -22,7 +22,8 @@ import AdvisorHome from './Components/AdvisorHome/AdvisorHome';
 import Room from './Components/Room/Room';
 import {ProfileContext} from './Context/ProfileContext'
 import Report from './Components/Report/Report';
-
+import AddConference from './Components/AddConference/AddConference'
+import Conference from './Components/Conference/Conference'
 function App() {
 
 
@@ -70,12 +71,17 @@ function MainAppFunction(){
               <Route path="" element={<Room data="advisor"/>}/>
               <Route path="lst_students" element={<Manifests data="advisor"/>}/>
               <Route path="report" element={<Report/>}/>
+              <Route path="add_conference" element={<AddConference data="advisor"/>}/>
+              <Route path="conf/:roomID" element={<Conference />} />
             </Route>
             <Route path="/home" element={<UserHome />} >  
               <Route path="" element={<Profile />} />
               <Route path="task" element={<Tasks />} />
               <Route path="room" element={<Room data='student'/>} />          
               <Route path='chat/:name' element={<Chat />} />
+              <Route path="add_conference" element={<AddConference data="student"/>}/>
+              <Route path="conf/:roomID" element={<Conference />} />
+
             </Route>
               
           </Routes>

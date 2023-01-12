@@ -155,6 +155,7 @@ function Manifests(props) {
       {props.data === "advisor" ? (
         <Grid container>
           <Grid item xs={4}>
+            <Typography>Manifest</Typography>
             <List
               sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
               component="nav"
@@ -413,7 +414,6 @@ function Manifests(props) {
                         <Button type="submit" variant="contained" sx={{ m: 1 }}>
                           Update
                         </Button>
-                     
                       </FormControl>
                     </Box>
                   </AccordionDetails>
@@ -424,7 +424,12 @@ function Manifests(props) {
         </Grid>
       ) : (
         //  manifest view in admin side.........
+        <div>
+          <span className="font-sans text-blue-700 font-semibold text-lg">
+            Manifests{" "}
+          </span>
         <Grid container>
+          
           <Grid item xs={4}>
             <List
               sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -703,6 +708,7 @@ function Manifests(props) {
             </Paper>
           </Grid>
         </Grid>
+        </div>
       )}
 
       {/* dialog box for manifest updation */}

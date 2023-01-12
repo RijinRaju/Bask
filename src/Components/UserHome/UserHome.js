@@ -33,6 +33,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
+import duo from '../../Assests/google.png'
 
 const drawerWidth = 240;
 
@@ -187,6 +188,14 @@ const toggleDrawer = () => {
                 <ListItemButton>
                   <ListItemIcon>
                     <img src={chat} width="25" height="25" />
+                  </ListItemIcon>
+                  <ListItemText primary="Chat" />
+                </ListItemButton>
+              </Link>
+              <Link to="add_conference" style={{ color: "#7602b6",fontWeight:400 }}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <img src={duo} width="25" height="25" />
                   </ListItemIcon>
                   <ListItemText primary="Chat" />
                 </ListItemButton>

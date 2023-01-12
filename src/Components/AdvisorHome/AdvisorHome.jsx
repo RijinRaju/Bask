@@ -21,9 +21,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
-import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import ContactsIcon from "@mui/icons-material/Contacts";
+import DuoIcon from "@mui/icons-material/Duo";
 import TaskIcon from "@mui/icons-material/Task";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -91,8 +89,8 @@ function AdvisorHome() {
   };
 
   const logout = () => {
-    localStorage.removeItem("adminToken");
-    navigate("/adm_login");
+    localStorage.removeItem("AdvisorToken");
+    navigate("/adv_login");
   };
 
   return (
@@ -133,9 +131,9 @@ function AdvisorHome() {
               ADVISOR
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              
+             {/* notification */}
+
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -206,19 +204,21 @@ function AdvisorHome() {
                    < AssessmentIcon/>
                  </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary="Add Advisors" />
+                <ListItemText primary="Add Report" />
               </ListItemButton>
             </Link>
 
             <Link
-              to="list_advisor"
+              to="add_conference"
               style={{ textDecoration: "none", color: "#787878" }}
             >
               <ListItemButton>
                 <ListItemIcon style={{ color: "#787878" }}>
-                  <ContactsIcon />
+                  <Tooltip title="Meeting" placement="right">
+                 <DuoIcon/>
+                 </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary="Advisors" />
+                <ListItemText primary=" Meeting" />
               </ListItemButton>
             </Link>
             <Link
@@ -227,47 +227,13 @@ function AdvisorHome() {
             >
               <ListItemButton>
                 <ListItemIcon style={{ color: "#787878" }}>
+                  <Tooltip title="View Task" placement="right">
                   <TaskIcon />
+                  </Tooltip>
                 </ListItemIcon>
                 <ListItemText primary="ADD Task" />
               </ListItemButton>
             </Link>
-
-            <Link
-              to="task_view"
-              style={{ textDecoration: "none", color: "#787878" }}
-            >
-              <ListItemButton>
-                <ListItemIcon style={{ color: "#787878" }}>
-                  <AssignmentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Tasks" />
-              </ListItemButton>
-            </Link>
-            <Link
-              to="lists"
-              style={{ textDecoration: "none", color: "#787878" }}
-            >
-              <ListItemButton>
-                <ListItemIcon style={{ color: "#787878" }}>
-                  <PendingActionsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Requests" />
-              </ListItemButton>
-            </Link>
-
-            <Link
-              to="manifests"
-              style={{ textDecoration: "none", color: "#787878" }}
-            >
-              <ListItemButton>
-                <ListItemIcon style={{ color: "#787878" }}>
-                  <StickyNote2Icon />
-                </ListItemIcon>
-                <ListItemText primary="Manifest" />
-              </ListItemButton>
-            </Link>
-
             <ListItemButton onClick={logout} style={{ color: "#787878" }}>
               <ListItemIcon style={{ color: "#787878" }}>
                 <LogoutIcon />
