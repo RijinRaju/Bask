@@ -10,13 +10,15 @@ import axios from 'axios';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import './AddAdvisor.css'
 import FormHelperText from '@mui/material/FormHelperText'
-import CircularProgress from '@mui/material/CircularProgress';
+import LoadingBar from '../LoadingBar/LoadingBar'
 
 function AddAdvisor() {
 
 const navigate = useNavigate()
 
-const[processing,setProcessing] = useState()
+const[processing,setProcessing] = useState(false)
+const[img,setImg] = useState({})
+const[imgFile,setImgFile]= useState(null)
 
   const {
     register,
@@ -27,14 +29,26 @@ const[processing,setProcessing] = useState()
 
   let formdata = new FormData()
 
+
+  const handlePreview = (event)=>{
+    const file = event.target.files[0];
+    setImgFile(file)
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImg(reader.result);
+    }
+    reader.readAsDataURL(file);
+  }
+
   const AdvisorsFormSubmit=(e)=>{
-    console.log(e.dob)
+    console.log(imgFile)
+    setProcessing(true)
 
     formdata.append('first_name', e.first_name)
     formdata.append('last_name', e.last_name)
     formdata.append('email',e.email)
     formdata.append('phone', e.phone)
-    formdata.append('img', e.img[0])
+    if (img) formdata.append('img',imgFile)
     formdata.append('DOB', e.dob)
     formdata.append('password', e.dob)
     let config = {
@@ -46,6 +60,10 @@ const[processing,setProcessing] = useState()
     })
 
      
+  }
+
+  if(processing){
+    <LoadingBar/>
   }
 
   return (
@@ -161,7 +179,10 @@ const[processing,setProcessing] = useState()
           sx={{
             height:"30vh"
           }}
-          > <Avatar sx={{
+          
+          > <Avatar
+          src={img}
+          sx={{
             m:3,
              width:100,
              height:100,
@@ -172,22 +193,16 @@ const[processing,setProcessing] = useState()
                left:'2em',
              }}
               >
-            </Avatar>
             
-              <TextField
-                type="file"
-                id="img"
-                name="img"
-                size="medium"
-              {...register("img", {
-                required: true,
-              })}
-               
-              />
-            {errors.img && (
-              <span style={{ color: "red" ,marginLeft:60}}>Upload Image</span>
-            )}
-
+            </Avatar>
+            <input
+              type="file"
+              id="img"
+              name="img"
+              size="medium"
+       
+              onChange={handlePreview}
+            />
               
           </Paper>
           

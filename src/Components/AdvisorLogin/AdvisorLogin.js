@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState} from "react";
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form'
 const theme = createTheme();
 
 function AdvisorLogin() {
-
+    const [error, setError] = useState('')
     const {
         register,
         handleSubmit,
@@ -36,12 +36,16 @@ function AdvisorLogin() {
         email: e.email,
         password: e.password,
     }).then(res => {
-        console.log(res.data.access)
+        console.log("hello")
         if (res.status === 200) {
 
             localStorage.setItem('AdvisorToken', JSON.stringify(res.data.access))
             navigate('/adv_home')
         }
+    
+            console.log(res.data)
+            setError("No active account found")
+        
     })
 
 }
@@ -118,9 +122,7 @@ function AdvisorLogin() {
                               {errors.password && (
                                   <span style={{ color: "red" }}>This field is required</span>
                               )}
-                                  <Link to="#" variant="body2">
-                                      Forgot password?
-                                  </Link>
+                                  {error && <span>{error}</span>}
                                   <Button
                                       type="submit"
                                       fullWidth

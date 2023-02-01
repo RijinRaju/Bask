@@ -28,16 +28,20 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import user from '../../Assests/user.png'
+import CircularProgress from '@mui/material/CircularProgress';
+import LoadingBar from '../LoadingBar/LoadingBar'
 function AddBatch() {
 
   const [open, setOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
+  const[progress,setProgress] = useState(true)
 
   const [advisors, setAdvisor] = useState([])
   const [lists, setLists] = useState([])
   const [domain, setDomain] = useState(0)
   const [weeks, setWeeks] = useState('')
   const [count, setCount] = useState([])
+  
   let tbox = [1, 2, 3, 4, 5]
   const {
     register,
@@ -49,12 +53,17 @@ function AddBatch() {
 
   const formdata = new FormData()
 
+
+
   useEffect(() => {
+  
+   
     axios.get("http://127.0.0.1:8000/admin/list_advisors").then((res) => {
       setAdvisor(res.data)
     });
 
     axios.get("http://127.0.0.1:8000/admin/batch_list").then(res => {
+      setProgress(false)
       setLists(res.data)
       console.log(res.data)
     })
@@ -102,11 +111,15 @@ function AddBatch() {
 
 
   }
-
+  if (progress){
+   return <LoadingBar/>
+   }
+   else{
   return (
-    <div>
-      <span className="font-sans text-blue-700 font-semibold text-lg">Add Batch </span>
+    <div> 
+      <span className="font-sans text-blue-700 font-semibold text-lg ">Add Batch </span>
       <Grid container spacing={3}>
+       
         {/* listing and creating batches */}
 
         {
@@ -162,7 +175,7 @@ function AddBatch() {
           })}
 
 
-        <MenuItem onClick={handleClickOpen}><AddCircleOutlineIcon />Add Batch</MenuItem>
+        <MenuItem onClick={handleClickOpen} sx={{mt:5}}><AddCircleOutlineIcon />Add Batch</MenuItem>
 
 
       </Grid>
@@ -260,8 +273,11 @@ function AddBatch() {
       </Dialog>
 
     </div>
+                
+    
 
   )
+                }
 }
 
 export default AddBatch

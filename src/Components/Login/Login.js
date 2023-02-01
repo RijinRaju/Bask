@@ -122,9 +122,7 @@ axios.post('http://127.0.0.1:8000/api/token',{
                   <span style={{ color: "red" }}>This field is required</span>
                 )}
                 <br/>
-                <Link to="#" variant="body2" style={{ color: 'white',textDecoration:'none' }}>
-                  Forgot password?
-                </Link>
+               
                 <Button
                   type="submit"
                   fullWidth

@@ -1,0 +1,16 @@
+
+
+@media only screen and (min-width:646px) and (max-width:898px){
+    .domain_paper{
+        width: 700px !important
+       
+    }
+}
+
+@media only screen and (min-width:240px) and (max-width:645px){
+    .domain_paper{
+        height:40vh;
+        width: 60vh !important
+        
+    }
+}

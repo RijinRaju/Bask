@@ -196,35 +196,6 @@ const navigate = useNavigate()
                     )}
                   </Grid>
                  
-                 
-                  {/* <Grid item xs={5}>
-                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                      <InputLabel sx={{ color: 'white' }}>Domain</InputLabel>
-                    <Select
-                    
-                      name="domain"
-                      label="Domain"
-                      id="Domain"
-                      value={domains.id}
-                      sx={{ input: { color: 'white', } }}
-                      InputLabelProps={{
-                        style: { color: '#fff' },
-                      }}
-                      {...register("domain", {
-                        required: true,
-                      })}
-                    >
-                      {domains.map((domain) => (
-                        <MenuItem value={domain.id} key={domain.id}>
-                          {domain.title}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {errors.domain && (
-                      <span style={{ color: "red" }}>This field is required</span>
-                    )}
-                    </FormControl>
-                  </Grid> */}
 
                 </Grid>
                 <Button

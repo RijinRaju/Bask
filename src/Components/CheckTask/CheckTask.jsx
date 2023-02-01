@@ -1,0 +1,173 @@
+import React,{useEffect,useState} from 'react'
+import axios from 'axios'
+import Grid from '@mui/material/Grid'
+import ListSubheader from "@mui/material/ListSubheader";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
+import Paper from "@mui/material/Paper";
+import PersonIcon from "@mui/icons-material/Person";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import jwtDecode from 'jwt-decode';
+
+function CheckTask() {
+
+
+    const [listOpen, setListOpen] = useState(true);
+    const [batch, setBatch] = useState([]);
+    const [lst, setLst] = useState(0);
+    const [students, setStudents] = useState([]);
+    const [advStudents, setAdvStudents] = useState([]);
+    const [lstWeeks, setLstWeeks] = useState([]);
+    const [weeks, setWeeks] = useState([]);
+    const [open, setOpen] = useState(false);
+    const[user,setUser] = useState(0)
+    const[stdId,setStdId] = useState(0)
+    const[question,setQuestion] = useState([])
+
+
+     !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
+
+    useEffect(() => {
+      axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
+        setBatch(res.data);
+      });
+
+      axios.get("http://127.0.0.1:8000/admin/weeks").then((res) => {
+        setLstWeeks(res.data);
+      });
+    }, [weeks]);
+
+     const handleListClick = () => {
+       setListOpen(!listOpen);
+     };
+  return (
+    <div>
+      <Typography>Task Verify</Typography>
+      <Grid container>
+        <Grid item xs={4} md={3}>
+          <List
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+              bgcolor: "background.paper",
+              height: "76vh",
+            }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                STUDENTS
+              </ListSubheader>
+            }
+          >
+            {batch.map((batch) => (
+              <>
+                <ListItemButton
+                  key={batch.id}
+                  onClick={() => {
+                    setLst(batch.id);
+                    axios
+                      .post("http://127.0.0.1:8000/advisor/std_mnfst", {
+                        id: batch.id,
+                        user: user,
+                      })
+                      .then((res) => {
+                        console.log(res.data);
+                        setAdvStudents(res.data);
+                      });
+                    handleListClick();
+                  }}
+                >
+                  <ListItemIcon>
+                    <BatchPredictionIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={batch.Batch_name} />
+                  {lst == batch.id ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse
+                  in={lst == batch.id ? true : false}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  {advStudents.map((student) => (
+                    <List component="div" disablePadding key={student.id}>
+                      <ListItemButton
+                        sx={{ pl: 4 }}
+                        onClick={() => {
+                          setStdId(student.student.id);
+                          axios
+                            .post("http://127.0.0.1:8000/advisor/chk_task", {
+                              user: student.student.id,
+                            })
+                            .then((res) => {
+                              console.log(res.data);
+                              setWeeks(res.data);
+                            });
+                        }}
+                      >
+                        <ListItemIcon>
+                          <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={student.student.first_name} />
+                      </ListItemButton>
+                    </List>
+                  ))}
+                </Collapse>
+              </>
+            ))}
+          </List>
+        </Grid>
+        <Grid xs={12} md={8}>
+          <Paper
+            elevation={0}
+            sx={{
+              height: "76vh",
+              overflowY: "scroll",
+            }}
+          >
+            {weeks.map((week) => (
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Week{week.question.week}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {week.question.task.map((ques) => (
+                    <Typography>
+                      {ques.id}
+                      {" ."}
+                      {ques.question}
+                    </Typography>
+                  ))}
+                  <Typography>ANSWERS</Typography>
+                  {week.answers.map((ans) => (
+                    <Typography>
+                      {ans.id}
+                      {". "}
+                      {ans.answers}
+                    </Typography>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
+  );
+}
+
+export default CheckTask

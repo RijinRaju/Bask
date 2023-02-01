@@ -129,31 +129,33 @@ let sender = (e) => {
                   }
                 >
                   {student.map((student) => (
-                    <ListItemButton
-                      key={student.id}
-                      onClick={(e) => {
-                        setReceiver(student.student.id);
-                        setDisplayName(student.student.first_name);
-                        setEndUser(student.student.id);
-                        setMsg("");
-                        setAllMsg("");
+                    <Paper elevation={3}>
+                      <ListItemButton
+                        key={student.id}
+                        onClick={(e) => {
+                          setReceiver(student.student.id);
+                          setDisplayName(student.student.first_name);
+                          setEndUser(student.student.id);
+                          setMsg("");
+                          setAllMsg("");
 
-                        axios
-                          .post("http://127.0.0.1:8000/advisor/chat_record", {
-                            sender: user,
-                            room_name: student.student.id,
-                          })
-                          .then((res) => {
-                            setAllMsg(res.data);
-                            console.log(res.data);
-                          });
-                      }}
-                    >
-                      <ListItemIcon>
-                        <Avatar alt={student.student.first_name}></Avatar>
-                      </ListItemIcon>
-                      <ListItemText primary={student.student.first_name} />
-                    </ListItemButton>
+                          axios
+                            .post("http://127.0.0.1:8000/advisor/chat_record", {
+                              sender: user,
+                              room_name: student.student.id,
+                            })
+                            .then((res) => {
+                              setAllMsg(res.data);
+                              console.log(res.data);
+                            });
+                        }}
+                      >
+                        <ListItemIcon>
+                          <Avatar alt={student.student.first_name}></Avatar>
+                        </ListItemIcon>
+                        <ListItemText primary={student.student.first_name} />
+                      </ListItemButton>
+                    </Paper>
                   ))}
                 </List>
               </Paper>
@@ -165,12 +167,12 @@ let sender = (e) => {
               sx={{ ml: 1, backgroundColor: "#F3EFE0" }}
               onSubmit={handleSubmit((e) => sender(e))}
             >
-              {receiver && (
-                <Paper
-                  sx={{
-                    height: 40,
-                  }}
-                >
+              <Paper
+                sx={{
+                  height: 40,
+                }}
+              >
+                {receiver && (
                   <Stack direction="row">
                     <Avatar
                       alt={advisor.first_name}
@@ -187,13 +189,12 @@ let sender = (e) => {
                       {displayName.toUpperCase()}
                     </Typography>
                   </Stack>
-                </Paper>
-              )}
+                )}
+              </Paper>
               <Paper
                 sx={{
                   height: "65vh",
                   overflowY: "scroll",
-                  backgroundImage: `url(${background})`,
                 }}
               >
                 {allmsg ? (
@@ -205,7 +206,7 @@ let sender = (e) => {
                           width: 200,
                           height: 50,
                           backgroundColor: "#B2B2B2",
-                        
+
                           borderRadius: "20px 20px 0px 20px",
                           mt: 2,
                           m: 3,
@@ -287,7 +288,7 @@ let sender = (e) => {
       ) : (
         // chat room for student
         <Grid container>
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             <Box sx={{ height: "80vh", backgroundColor: "white" }}>
               <Paper
                 elevation={5}
@@ -309,47 +310,49 @@ let sender = (e) => {
                   }
                 >
                   {advisor.map((advisor) => (
-                    <ListItemButton
-                      key={advisor.id}
-                      onClick={(e) => {
-                        setReceiver(user);
-                        setDisplayName(advisor.first_name);
-                        setEndUser(advisor.id);
-                        setMsg("");
-                        setAllMsg("");
-                        axios
-                          .post("http://127.0.0.1:8000/advisor/chat_record", {
-                            sender: advisor.id,
-                            room_name: user,
-                          })
-                          .then((res) => {
-                            console.log(res.data);
-                            setAllMsg(res.data);
-                          });
-                      }}
-                    >
-                      <ListItemIcon>
-                        <Avatar alt={advisor.first_name}></Avatar>
-                      </ListItemIcon>
-                      <ListItemText primary={advisor.first_name} />
-                    </ListItemButton>
+                    <Paper elevation={3}>
+                      <ListItemButton
+                        key={advisor.id}
+                        onClick={(e) => {
+                          setReceiver(user);
+                          setDisplayName(advisor.first_name);
+                          setEndUser(advisor.id);
+                          setMsg("");
+                          setAllMsg("");
+                          axios
+                            .post("http://127.0.0.1:8000/advisor/chat_record", {
+                              sender: advisor.id,
+                              room_name: user,
+                            })
+                            .then((res) => {
+                              console.log(res.data);
+                              setAllMsg(res.data);
+                            });
+                        }}
+                      >
+                        <ListItemIcon>
+                          <Avatar alt={advisor.first_name}></Avatar>
+                        </ListItemIcon>
+                        <ListItemText primary={advisor.first_name} />
+                      </ListItemButton>
+                    </Paper>
                   ))}
                 </List>
               </Paper>
             </Box>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={9}>
             <Paper
               component="form"
-              sx={{ ml: 1, backgroundImage: `url(${background})` }}
+              sx={{ ml: 1 }}
               onSubmit={handleSubmit((e) => sender(e))}
             >
-              {receiver && (
-                <Paper
-                  sx={{
-                    height: 40,
-                  }}
-                >
+              <Paper
+                sx={{
+                  height: 40,
+                }}
+              >
+                {receiver && (
                   <Stack direction="row">
                     <Avatar
                       alt={advisor.first_name}
@@ -366,13 +369,12 @@ let sender = (e) => {
                       {displayName.toUpperCase()}
                     </Typography>
                   </Stack>
-                </Paper>
-              )}{" "}
+                )}{" "}
+              </Paper>
               <Paper
                 sx={{
                   height: "65vh",
                   overflowY: "scroll",
-                  backgroundImage: `url(${background})`,
                 }}
               >
                 {allmsg &&
@@ -383,7 +385,7 @@ let sender = (e) => {
                         sx={{
                           width: 200,
                           height: 50,
-                          backgroundColor: "#8b00f7",
+                          backgroundColor: "#B2B2B2",
                           borderRadius: "20px 20px 20px 0px",
                           mt: 2,
                           m: 3,
@@ -401,7 +403,7 @@ let sender = (e) => {
                         sx={{
                           width: 200,
                           height: 50,
-                          backgroundColor: "#8b00f7",
+                          backgroundColor: "#b2b2b2",
                           borderRadius: "20px 20px 0px 20px",
                           mt: 2,
                           m: 3,
@@ -420,7 +422,7 @@ let sender = (e) => {
                       sx={{
                         width: 200,
                         height: 50,
-                        backgroundColor: "#8b00f7",
+                        backgroundColor: "#b2b2b2",
                         borderRadius: "20px 20px 20px 0px",
                         mt: 2,
                         m: 3,

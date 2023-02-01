@@ -82,6 +82,11 @@ const mdTheme = createTheme();
 
 function AdvisorHome() {
   const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   const navigate = useNavigate();
   const toggleDrawer = () => {
@@ -95,7 +100,7 @@ function AdvisorHome() {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: "flex" }} >
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
           position="absolute"
@@ -107,7 +112,6 @@ function AdvisorHome() {
             sx={{
               pr: "24px", // keep right padding when drawer closed
             }}
-            
           >
             <IconButton
               edge="start"
@@ -130,11 +134,7 @@ function AdvisorHome() {
             >
               ADVISOR
             </Typography>
-            <IconButton color="inherit">
-              
-             {/* notification */}
-
-            </IconButton>
+            <IconButton color="inherit">{/* notification */}</IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -170,13 +170,18 @@ function AdvisorHome() {
             }}
           >
             <Link to="" style={{ textDecoration: "none", color: "#787878" }}>
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 0}
+                onClick={(e) => {
+                  handleListItemClick(e, 0);
+                }}
+              >
                 <ListItemIcon style={{ color: "#787878" }}>
                   <Tooltip title="Chat" placement="right">
                     <ChatIcon />
                   </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary="Domain" />
+                <ListItemText primary="Chat" />
               </ListItemButton>
             </Link>
 
@@ -184,13 +189,18 @@ function AdvisorHome() {
               to="lst_students"
               style={{ textDecoration: "none", color: "#787878" }}
             >
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 1}
+                onClick={(e) => {
+                  handleListItemClick(e, 1);
+                }}
+              >
                 <ListItemIcon style={{ color: "#787878" }}>
                   <Tooltip title="Manifest" placement="right">
                     <StickyNote2Icon />
                   </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary="Add Batch" />
+                <ListItemText primary="Manifest" />
               </ListItemButton>
             </Link>
 
@@ -198,11 +208,16 @@ function AdvisorHome() {
               to="report"
               style={{ textDecoration: "none", color: "#787878" }}
             >
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 2}
+                onClick={(e) => {
+                  handleListItemClick(e, 2);
+                }}
+              >
                 <ListItemIcon style={{ color: "#787878" }}>
-                 <Tooltip title="Report" placement="right">
-                   < AssessmentIcon/>
-                 </Tooltip>
+                  <Tooltip title="Report" placement="right">
+                    <AssessmentIcon />
+                  </Tooltip>
                 </ListItemIcon>
                 <ListItemText primary="Add Report" />
               </ListItemButton>
@@ -212,26 +227,36 @@ function AdvisorHome() {
               to="add_conference"
               style={{ textDecoration: "none", color: "#787878" }}
             >
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 3}
+                onClick={(e) => {
+                  handleListItemClick(e, 3);
+                }}
+              >
                 <ListItemIcon style={{ color: "#787878" }}>
                   <Tooltip title="Meeting" placement="right">
-                 <DuoIcon/>
-                 </Tooltip>
+                    <DuoIcon />
+                  </Tooltip>
                 </ListItemIcon>
                 <ListItemText primary=" Meeting" />
               </ListItemButton>
             </Link>
             <Link
-              to="add_task"
+              to="chk_task"
               style={{ textDecoration: "none", color: "#787878" }}
             >
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 4}
+                onClick={(e) => {
+                  handleListItemClick(e, 4);
+                }}
+              >
                 <ListItemIcon style={{ color: "#787878" }}>
                   <Tooltip title="View Task" placement="right">
-                  <TaskIcon />
+                    <TaskIcon />
                   </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary="ADD Task" />
+                <ListItemText primary="View Task" />
               </ListItemButton>
             </Link>
             <ListItemButton onClick={logout} style={{ color: "#787878" }}>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import "./Domains.css";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,12 +10,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
-import Paper from '@mui/material/Paper'
-
+import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import LoadingBar from "../LoadingBar/LoadingBar";
 function Domains() {
   const {
     register,
@@ -24,18 +29,24 @@ function Domains() {
 
   const [open, setOpen] = useState(false);
   const [domList, setDomList] = useState([]);
-   
-
-  useEffect(() => {
-    let token = localStorage.getItem("adminToken").replaceAll('"','')
+  const [preview, setPreview] = useState(null);
+  const[sendPreview,setSendPreview] = useState(null)
+  const [progress, setProgress] = useState(true);
+  const listDomain = () => {
+    let token = localStorage.getItem("adminToken").replaceAll('"', "");
     const data = {
       Authorization: `token ${token}`,
     };
     axios
-      .get("http://127.0.0.1:8000/admin/domains",{headers: data})
+      .get("http://127.0.0.1:8000/admin/domains", { headers: data })
       .then((res) => {
         setDomList(res.data);
+        setProgress(false)
       });
+  };
+
+  useEffect(() => {
+    listDomain();
   }, []);
 
   const handleClickOpen = () => {
@@ -46,9 +57,23 @@ function Domains() {
     setOpen(false);
   };
 
+   const handleImageChange = (e) => {
+  
+     const file = e.target.files[0];
+        console.log(file);
+     setSendPreview(file);
+     const reader = new FileReader();
+     reader.onloadend = () => {
+       setPreview(reader.result);
+     };
+     reader.readAsDataURL(file);
+   };
+
   let formdata = new FormData();
+
   const domainSubmit = (e) => {
-    formdata.append("img", e.domain_icn[0]);
+
+    if (preview) formdata.append("img", sendPreview);
     formdata.append("title", e.domain_name);
 
     const config = {
@@ -60,38 +85,80 @@ function Domains() {
       .then((e) => {
         setDomList(e.data);
       });
-      setOpen(false)
+    setOpen(false);
+    listDomain();
   };
+
+ 
+
+
+  if (progress) {
+    return <LoadingBar />;
+  }
 
   return (
     <div>
       {/* listing the domain names and logo */}
       <span className="font-sans text-blue-700 font-semibold text-lg">
-          Domains 
-        </span>
+        Domains
+      </span>
       <Grid container spacing={3} style={{ color: "#5c5b58" }}>
         {domList.map((domain) => {
-          let img_name = domain.img.replace(
-            "/Frontend/src/Assests/Domains/",
-            ""
-          );
           return (
-            <Grid item key={domain.id}>
+            <Grid item key={domain.id} md={6} xs={12}>
               <Paper
                 elevation={3}
-                // component="card"
-                sx={{
-                  width: 500,
+                className="domain_paper"
+                style={{
+                  width: "400px",
                   height: 100,
                   margin: 2,
                 }}
               >
-                <img
-                  src={img_name && require("../../Assests/Domains/" + img_name)}
-                  width="100"
-                  height="70"
-                  alt="domain image"
-                />
+                <Grid container>
+                  <Grid
+                    item
+                    xs={6}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={domain.img}
+                      alt="domain_image"
+                      style={{
+                        width: 100,
+                        height: 100,
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid
+                    xs={6}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "end",
+                      alignItems: "end",
+                    }}
+                  >
+                    <Button
+                      onClick={() => {
+                        axios
+                          .delete(
+                            `http://127.0.0.1:8000/admin/dom_del/${domain.id}`
+                          )
+                          .then((res) => {
+                            console.log(res.data);
+                            listDomain();
+                          });
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Grid>
+                </Grid>
               </Paper>
               <Typography align="justify" ml={8}>
                 {domain.title}
@@ -99,7 +166,7 @@ function Domains() {
             </Grid>
           );
         })}
-        <Grid item mt={4}>
+        <Grid item mt={4} md={6} xs={12}>
           <Box component="span" sx={{ p: 2, border: "1px dashed grey" }}>
             <Button onClick={handleClickOpen}>
               <AddIcon />
@@ -120,17 +187,34 @@ function Domains() {
         >
           <DialogContent>
             <DialogContentText>
-              <TextField
-                type="file"
-                size="medium"
-                name="domain_icn"
-                {...register("domain_icn", {
-                  required: true,
-                })}
-              />
-              {errors.domain_icn && (
-                <span style={{ color: "red" }}>This field is required</span>
-              )}
+              <Grid container style={{overflow:'hidden'}}>
+                <Grid item xs={12} md={6}>
+
+                <Avatar
+                  alt="Remy Sharp"
+                  src={preview}
+                  sx={{ width: 100, height: 100 }}
+                />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                <input
+                  type="file"
+                  size="medium"
+                  name="domain_icn"
+                  sx={{
+                  
+                  }}
+  
+                  onChange={handleImageChange}
+                  // {...register("domain_icn", {
+                  //   required: true,
+                  // })}
+                />
+                </Grid>
+                {/* {errors.domain_icn && (
+                  <span style={{ color: "red" }}>This field is required</span>
+                )} */}
+              </Grid>
               <TextField
                 autoFocus
                 margin="dense"
@@ -138,7 +222,7 @@ function Domains() {
                 label="Domain Name"
                 type="text"
                 name="domain_name"
-                fullWidth
+                
                 variant="standard"
                 {...register("domain_name", {
                   required: true,

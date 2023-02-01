@@ -36,7 +36,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
-
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -93,6 +92,7 @@ function AdminHome() {
 
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const [open, setOpen] = useState(false);
     const [preview ,setPreview] = useState();
@@ -105,6 +105,10 @@ function AdminHome() {
         setOpen(!open);
     };
 
+    const handleListItemClick = (event, index) => {
+      
+        setSelectedIndex(index);
+    };
 
 
     !user && setUser(jwtDecode(localStorage.getItem('adminToken')).user_id)
@@ -150,17 +154,13 @@ function AdminHome() {
             formdata,config
 
         ).then((res)=>{
+        setDialogOpen(false);
         setPreview(res.data[0].img)
+       
         })
     }
 
-    if (preview)
-    {   
-        console.log(preview)
-            var profile_img = preview.replace("/Frontend/src/Assests/Advisors/", "");
-
-     
-    }
+    
 
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
@@ -213,7 +213,7 @@ function AdminHome() {
                            
                         >
                             
-                            <Avatar alt="Remy Sharp" src={preview != null ?require('../../Assests/Advisors/'+ profile_img): null}  />
+                            <Avatar alt="Remy Sharp" src={preview}  />
                         </IconButton>
                         
                         <Menu
@@ -226,7 +226,7 @@ function AdminHome() {
                             }}
                         >
                       
-                            <Avatar alt="Remy Sharp" src={preview != null ? require('../../Assests/Advisors/' + profile_img) : null} sx={{
+                            <Avatar alt="Remy Sharp" src={preview} sx={{
                                 width:100,
                                 height:100,
                                 m:1,
@@ -261,7 +261,7 @@ function AdminHome() {
                         </IconButton>
                     </Toolbar>
                     {/* <Divider /> */}
-                    <List component="nav" style={{ backgroundColor: 'white', height: 400, overflowY: 'scroll', overflowX: 'hidden' }}
+                    <List component="nav" style={{ backgroundColor: 'white', height: 500, overflowY: 'scroll', overflowX: 'hidden' }}
                     sx={{
                         "&::-webkit-scrollbar":{width:6},
                         "&::-webkit-scrollbar-track":{
@@ -274,7 +274,10 @@ function AdminHome() {
                     }}
                     >
                         <Link to="" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 0}
+                                onClick={(e)=>{handleListItemClick(e,0)}}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Domain" placement="right">
                                     <TerminalIcon />
@@ -285,7 +288,10 @@ function AdminHome() {
                         </Link>
 
                         <Link to="add_batch" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                            selected={selectedIndex === 1}
+                            onClick={(e)=>{handleListItemClick(e,1)}}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Add Batch" placement="right">
                                     <BatchPredictionIcon />
@@ -296,7 +302,10 @@ function AdminHome() {
                         </Link>
 
                         <Link to="add_advisor" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 2}
+                                onClick={(e) => { handleListItemClick(e, 2) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Add Advisor" placement="right">
                                     <PersonAddAltIcon />
@@ -307,7 +316,10 @@ function AdminHome() {
                         </Link>
 
                         <Link to="list_advisor" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 3}
+                                onClick={(e) => { handleListItemClick(e, 3) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Advisors" placement="right">
                                     <ContactsIcon />
@@ -317,7 +329,10 @@ function AdminHome() {
                             </ListItemButton>
                         </Link>
                         <Link to="add_task" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 4}
+                                onClick={(e) => { handleListItemClick(e, 4) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Add Task" placement="right">
                                     <TaskIcon />
@@ -328,7 +343,10 @@ function AdminHome() {
                         </Link>
 
                         <Link to="task_view" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 5}
+                                onClick={(e) => { handleListItemClick(e, 5) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Tasks" placement="right">
                                     <AssignmentIcon />
@@ -338,7 +356,10 @@ function AdminHome() {
                             </ListItemButton>
                         </Link>
                         <Link to="lists" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 6}
+                                onClick={(e) => { handleListItemClick(e, 6) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Requests" placement="right">
                                     <PendingActionsIcon />
@@ -349,7 +370,10 @@ function AdminHome() {
                         </Link>
 
                         <Link to="manifests" style={{ textDecoration: "none", color: '#787878' }}>
-                            <ListItemButton>
+                            <ListItemButton
+                                selected={selectedIndex === 7}
+                                onClick={(e) => { handleListItemClick(e, 7) }}
+                            >
                                 <ListItemIcon style={{ color: '#787878' }}>
                                     <Tooltip title="Manifest" placement="right">
                                     <StickyNote2Icon />

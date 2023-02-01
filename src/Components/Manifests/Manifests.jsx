@@ -54,7 +54,6 @@ function Manifests(props) {
   const [forms, setForms] = useState({
     
   });
-  !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
 
   const formchange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +64,10 @@ function Manifests(props) {
 
 
    useEffect(() => {
+
+      localStorage.getItem("AdvisorToken") &&
+        setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
+
      axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
        setBatch(res.data);
      });
@@ -76,7 +79,7 @@ function Manifests(props) {
     })
    
                     
-   }, [weeks]);
+   }, []);
 
 
   
@@ -111,7 +114,7 @@ function Manifests(props) {
 
    axios
      .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
-       week: forms.week,
+       week: forms.week_select,
        status: forms.status,
        week_task: forms.week_task,
        updates: forms.updates,
@@ -131,10 +134,10 @@ function Manifests(props) {
    handleClose();
  };
 
-  const formSubmit=(e)=>{
-    e.preventDefault()
-    console.log(e.target.value)
-  }
+  // const formSubmit=(e)=>{
+  //   e.preventDefault()
+  //   console.log(e.target.value)
+  // }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -239,7 +242,7 @@ function Manifests(props) {
                 overflowY: "scroll",
               }}
             >
-              {weeks.map((week) => (
+              {weeks && weeks.map((week) => (
                 <Accordion>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -247,6 +250,7 @@ function Manifests(props) {
                     id="panel1a-header"
                     onClick={() => {
                       setWeekId(week.id);
+                    
                     }}
                   >
                     <Grid container>
@@ -501,7 +505,7 @@ function Manifests(props) {
               elevation={5}
               sx={{
                 height: "80vh",
-                overflowY: "scroll",
+                // overflowY: "scroll",
               }}
             >
               {weeks.map((week) => (
@@ -761,7 +765,7 @@ function Manifests(props) {
                   helperText="Project Updates"
                   name="updates"
                   multiline
-                  maxRows={10}
+                  maxRows={20}
                   style={{ width: 210 }}
                   defaultValue={forms.project_updates}
                   onChange={formchange}

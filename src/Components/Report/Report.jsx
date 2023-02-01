@@ -16,8 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import batch from "../../Assests/batch.png";
-import location from "../../Assests/location.png";
+import GroupsIcon from "@mui/icons-material/Groups";
 import date from "../../Assests/date.png";
 import { Card } from "@mui/material";
 import List from "@mui/material/List";
@@ -27,6 +26,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import jwtDecode from 'jwt-decode';
+import PersonOffIcon from "@mui/icons-material/PersonOff";
 function Report() {
  
  const {
@@ -87,7 +87,7 @@ useEffect(()=>{
       <div>
         <div>
           <span className="font-sans text-blue-700 font-semibold text-lg">
-            Add Batch{" "}
+            Add Report{" "}
           </span>
           <Grid container spacing={3}>
             {/* listing and creating batches */}
@@ -102,7 +102,7 @@ useEffect(()=>{
                         <ListItem disablePadding>
                           <ListItemButton>
                             <ListItemIcon>
-                              <img src={batch} width="25" height="25" />
+                              <PersonOffIcon /> Terminated: 
                             </ListItemIcon>
                             <ListItemText primary={list.students} />
                           </ListItemButton>
@@ -110,7 +110,7 @@ useEffect(()=>{
                         <ListItem disablePadding>
                           <ListItemButton>
                             <ListItemIcon>
-                              <img src={location} width="25" height="25" />
+                          <GroupsIcon/>Total Students: 
                             </ListItemIcon>
                             <ListItemText primary={list.eliminated} />
                           </ListItemButton>
@@ -126,10 +126,10 @@ useEffect(()=>{
                         <Divider />
                         <ListItem disablePadding>
                           <ListItemButton>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText
-                              primary={list.note}
-                            />
+                            <ListItemIcon>
+                              Notes:
+                            </ListItemIcon>
+                            <ListItemText primary={list.note} />
                           </ListItemButton>
                         </ListItem>
                       </List>

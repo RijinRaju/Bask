@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import './AdminLogin.css'
 import { Link ,useNavigate} from 'react-router-dom'
 import logo from '../../Assests/logo.png'
@@ -13,7 +13,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -22,6 +24,35 @@ import axios from 'axios'
 function AdminLogin() {
     const theme = createTheme();
     const[adminToken,setAdminToken]  = useState("")
+    const [open, setOpen] = React.useState(false);
+    
+
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const handleClick = () => {
+        setOpen(true);
+    };
+    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+    const action = (
+        <React.Fragment>
+            <Button color="secondary" size="small" onClick={handleClose}>
+                UNDO
+            </Button>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     const navigate = useNavigate()
     const {
@@ -33,18 +64,28 @@ function AdminLogin() {
 
 
 
+    useEffect(()=>{
+        if(open){
+           
+        }
+    },[open])
+
     const loginSubmit=(e)=>{
+       
         console.log(e)
         axios.post('http://127.0.0.1:8000/api/token',{
             email:e.email,
             password:e.password
         }).then(res=>{
-            console.log(res.data)
+        
             if (res.status === 200){
             localStorage.setItem("adminToken",JSON.stringify(res.data.access))
             navigate("/adm_home")
             }
-        
+        else{
+            //   setOpen(true)
+            
+        }
         })
     }
 
@@ -53,6 +94,15 @@ function AdminLogin() {
 
     return (
         <div className="log_box">
+            <Snackbar
+                open={open}
+                autoHideDuration={1000}
+                message="Email incorrect"
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center'
+                }}
+            />
             <Box
                 sx={{
                     width: 1 / 4,
@@ -92,9 +142,21 @@ function AdminLogin() {
                                     placeholder="EMAIL"
                                     {...register("email", {
                                         required: true,
+                                        pattern:{
+                                            value:emailRegex,
+                                            message:'invalid email'
+                                        }
                                     })}/>
                                 {errors.email && (
-                                    <span style={{ color: "red" }}>This field is required</span>
+                                    <Snackbar
+                                        open={true}
+                                        autoHideDuration={1000}
+                                        message="Email incorrect"
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center'
+                                        }}
+                                    />
                                 )}
                                 <input type='password'
                                     margin="normal"
@@ -104,22 +166,31 @@ function AdminLogin() {
                                     
                                     type="password"
                                     id="password"
-                                    className="pass_field"
+                                    className="pass_field text-xs"
                                     placeholder="PASSWORD"
                                     {...register("password", {
                                         required: true,
                                     })}
                                 />
                                 {errors.password && (
-                                    <span style={{ color: "red" }}>This field is required</span>
-                                )}
-                                
+                                <Snackbar
+                                    open={true}
+                                    autoHideDuration={1000}
+                                    message="password incorrect"
+                           
+                                    anchorOrigin={{
+                                        vertical:'top',
+                                        horizontal:'center'
+                                    }}
+                                />)}
+                               
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    sx={{ mt: 10 }}
+                                    sx={{ mt: 5 }}
                                     style={{ backgroundColor: 'black' }}
+                                    
                                 >
                                     Sign In
                                 </Button>

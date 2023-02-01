@@ -52,9 +52,11 @@ function AddConference(props) {
   return (
     <div>
       <Paper sx={{ height: "80vh" }}>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid
-            xs={5}
+            xs={12}
+            md={6}
+            sm={12}
             item
             sx={{
               display: "flex",
@@ -64,12 +66,13 @@ function AddConference(props) {
               height: "80vh",
             }}
           >
-            <Stack spacing={3} direction="row">
+            <Stack spacing={5}>
               <Box
                 component="button"
                 sx={{
-                  width: 80,
+                  width: "40vh",
                   height: 80,
+
                   backgroundColor: "orange",
                   ":hover": {
                     bgcolor: "orange",
@@ -88,11 +91,15 @@ function AddConference(props) {
                     color: "white",
                   }}
                 />
+                <Typography sx={{ mt: 2, color: "white" }}>
+                  Start Meeting
+                </Typography>
               </Box>
+
               <Box
                 component="button"
                 sx={{
-                  width: 80,
+                  width: "40vh",
                   height: 80,
                   backgroundColor: "blue",
                   display: "flex",
@@ -112,30 +119,35 @@ function AddConference(props) {
                     color: "white",
                   }}
                 />
+                <Typography sx={{ mt: 2, color: "white" }}>
+                  Start Meeting
+                </Typography>
               </Box>
             </Stack>
           </Grid>
 
           <Grid
-            xs={7}
+            xs={12}
+            md={6}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItmes: "center",
             }}
+            sm={12}
           >
             <Paper
-            sx={{
-              height:'50vh',
-              mt:13,
-              width:'45vh',
-              backgroundImage:`url(${timer})`,
-              display:'flex',
-              justifyContent:'center',
-              alignItems:'center',
-            }}
+              sx={{
+                height: "50vh",
+                mt: 13,
+                width: "45vh",
+                backgroundImage: `url(${timer})`,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <h2 style={{color:'white'}}>
+              <h2 style={{ color: "white" }}>
                 {" "}
                 <Clock format="HH:mm:ss" interval={1000} ticking={true} />
               </h2>

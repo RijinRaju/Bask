@@ -151,7 +151,7 @@ function ListAdvisors() {
                       m: 4,
                       width: 100,
                     }}
-                    image={require("../../Assests/Advisors/" + img_name)}
+                    image={advisor.img}
                   />
                 </Grid>
                 <Grid xs={7} className="grid_2">
@@ -217,8 +217,8 @@ function ListAdvisors() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={removeAdv} >Agree</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={removeAdv} >Delete</Button>
         </DialogActions>
       </Dialog>
 

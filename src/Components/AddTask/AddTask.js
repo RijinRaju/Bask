@@ -11,6 +11,7 @@ import axios from 'axios'
 import Card from '@mui/material/Card'
 import Select from '@mui/material/Select'
 import { MenuItem } from '@mui/material';
+import Stack from '@mui/material/Stack'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 function AddTask() {
 
@@ -74,12 +75,15 @@ function AddTask() {
     <Grid container justify="center" spacing={3} component="form" onSubmit={(e) => questionSubmit(e)} >
       <span className="font-sans text-blue-700 font-semibold text-lg">CreateTask </span>
 
-      <Grid item xs={3}>
+      <Grid item xs={12} md={3}>
 
         <Card
           elevation={3}
           sx={{
-            mr: 6
+            mr: 6,
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center'
 
           }}
           
@@ -143,7 +147,7 @@ function AddTask() {
         </Card>
       </Grid>
 
-      <Grid item xs={8} style={{}}>
+      <Grid item xs={12} md={8}>
         <Paper style={{ overflow: 'auto', maxHeight: 500, backgroundColor: '#e6ddf9', }} elevation={3}>
           <Paper elevation={3} style={{ backgroundColor: '#1976d2' }}>
 
@@ -154,11 +158,9 @@ function AddTask() {
 
               <div key={index}>
 
-
-
+                <Stack direction="row">
+                <Typography>{index + 1}.</Typography>
                 <textarea
-
-                  placeholder={index + 1}
                   name={index}
                   style={{ backgroundColor: 'white', height: '10vh', border: 0 }}
                   defaultValue={input.question}
@@ -167,7 +169,7 @@ function AddTask() {
                   cols="75"
                   rows="5"
                 />
-
+                </Stack>
               </div>
             )
           })
