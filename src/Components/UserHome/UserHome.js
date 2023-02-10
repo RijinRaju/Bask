@@ -34,6 +34,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
 import duo from '../../Assests/google.png'
+import Tooltip from '@mui/material/Tooltip'
 
 const drawerWidth = 240;
 
@@ -161,8 +162,9 @@ const toggleDrawer = () => {
 
           <List component="nav">
             <div className="font-sans hover:font-serif">
-              <Link to="" style={{ color: "#7602b6" }}>
+              <Link to="" style={{ color: "#000000" }}>
                 <ListItemButton>
+                   <Tooltip title="Home" placement="right">
                   <ListItemIcon>
                     <img
                       src={home}
@@ -171,37 +173,44 @@ const toggleDrawer = () => {
                       
                     />
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText primary="Home" />
                 </ListItemButton>
               </Link>
 
-              <Link to="task" style={{ color: "#7602b6" }}>
+              <Link to="task" style={{ color: "#000000" }}>
                 <ListItemButton>
+                   <Tooltip title="Task" placement="right">
                   <ListItemIcon>
                     <img src={task} width="25" height="25" />
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText primary="Task" />
                 </ListItemButton>
               </Link>
 
-              <Link to="room" style={{ color: "#7602b6" }}>
+              <Link to="room" style={{ color: "#000000" }}>
                 <ListItemButton>
+                   <Tooltip title="Chat" placement="right">
                   <ListItemIcon>
                     <img src={chat} width="25" height="25" />
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText primary="Chat" />
                 </ListItemButton>
               </Link>
-              <Link to="add_conference" style={{ color: "#7602b6",fontWeight:400 }}>
+              <Link to="add_conference" style={{ color: "#000000",fontWeight:400 }}>
                 <ListItemButton>
+                   <Tooltip title="Video Call" placement="right">
                   <ListItemIcon>
                     <img src={duo} width="25" height="25" />
                   </ListItemIcon>
-                  <ListItemText primary="Chat" />
+                  </Tooltip>
+                  <ListItemText primary="Video Call" />
                 </ListItemButton>
               </Link>
 
-              <ListItemButton onClick={logout} style={{ color: "#7602b6" }}>
+              <ListItemButton onClick={logout} style={{ color: "#000000" }}>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>

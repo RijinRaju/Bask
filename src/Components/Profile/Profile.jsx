@@ -117,25 +117,27 @@ if(value != "")
 const updateAddress=(e)=>{
 e.preventDefault()
 console.log(address)
-axios.post('http://127.0.0.1:8000/address',{
-  user:user,
-  dob:address.dob,
-  age:address.age,
-  gender:address.gender,
-  father_name:address.father_name,
-  father_contact:address.father_contact,
-  mother_name:address.mother_name,
-  mother_contact:address.mother_con,
-  address:address.address,
-  village:address.village,
-  taluk:address.taluk,
-  education_qualification:address.education_qualification,
-  collage_or_school:address.collage_or_school
-}).then(res=>{
-  console.log(res.data)
-  setAddress(res.data)
-  updateAddresses()
-})
+axios
+  .post("http://127.0.0.1:8000/address", {
+    user: user,
+    dob: address.dob,
+    age: address.age,
+    gender: address.gender,
+    father_name: address.father_name,
+    father_contact: address.father_contact,
+    mother_name: address.mother_name,
+    mother_contact: address.mother_contact,
+    address: address.address,
+    village: address.village,
+    taluk: address.taluk,
+    education_qualification: address.education_qualification,
+    collage_or_school: address.collage_or_school,
+  })
+  .then((res) => {
+    console.log(res.data);
+    setAddress(res.data);
+    updateAddresses();
+  });
 }
 
     return (
@@ -235,204 +237,421 @@ axios.post('http://127.0.0.1:8000/address',{
                 <h4 className="font-sans p-2">Personal Details</h4>
                 <Box component="form" onSubmit={updateAddress}>
                   <FormControl component="fieldset">
-                    {/* {
-                      addresses.map((address) => ( */}
-                    <FormGroup row>
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="DOB"
-                        type="date"
-                        name="dob"
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.dob : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Age"
-                        name="age"
-                        type="number"
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.age : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
+                    {addresses ? (
+                      addresses.map((address) => (
+                        <FormGroup row>
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="DOB"
+                            type="date"
+                            name="dob"
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.dob : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            label="Age"
+                            helperText="Age"
+                            name="age"
+                            type="number"
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.age : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
 
-                  
-                   
+                          <FormControl>
+                            <InputLabel id="gender_label">Gender</InputLabel>
+                            <Select
+                              id="demo-simple-select-disabled-label"
+                              labelId="gender_label"
+                              label="Gender"
+                              name="gender"
+                              style={{ width: 210 }}
+                              size="small"
+                              defaultValue={address ? address.gender : ""}
+                              onChange={addAddress}
+                              sx={{
+                                m: 1,
+                              }}
+                              displayEmpty
+                            >
+                              <MenuItem value="male">Male</MenuItem>
+                              <MenuItem value="female">Female</MenuItem>
+                              <MenuItem value="others">Others</MenuItem>
+                            </Select>
+                          </FormControl>
+
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Father's name"
+                            label="Father's name"
+                            name="father_name"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.father_name : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Father's contact"
+                            label="Father's contact"
+                            name="father_contact"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.father_contact : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Mother's Name"
+                            label="Mother's Name"
+                            name="mother_name"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.mother_name : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Mother's Contact"
+                            label="Mother's Contact"
+                            name="mother_contact"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.mother_contact : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Address"
+                            label="Address"
+                            name="address"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.address : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Village"
+                            label="Village"
+                            name="village"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.village : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Taluk"
+                            label="Taluk"
+                            name="taluk"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.taluk : ""}
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Education Qualification"
+                            label="Education Qualification"
+                            name="education_qualification"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={
+                              address ? address.education_qualification : ""
+                            }
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            helperText="Name of College/ School"
+                            label="Name of College/ School"
+                            name="collage_or_school"
+                            multiline
+                            maxRows={10}
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={
+                              address ? address.collage_or_school : ""
+                            }
+                            onChange={addAddress}
+                            sx={{
+                              mt: 1,
+                              m: 1,
+                            }}
+                          />
+                        </FormGroup>
+                      ))
+                    ) : (
+                      <FormGroup row>
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="DOB"
+                          type="date"
+                          name="dob"
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.dob : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          label="Age"
+                          helperText="Age"
+                          name="age"
+                          type="number"
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.age : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+
                         <FormControl>
-                      <InputLabel id="gender_label">Gender</InputLabel>
-                      <Select
-                        id="demo-simple-select-disabled-label"
-                        labelId="gender_label"
-                        label="Gender"
-                        name="gender"
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.gender : ""}
-                        onChange={addAddress}
-                        sx={{
-                          m: 1,
-                        }}
-                        displayEmpty
-                      >
-                        <MenuItem value="male">Male</MenuItem>
-                        <MenuItem value="female">Female</MenuItem>
-                        <MenuItem value="others">Others</MenuItem>
-                      </Select>
-                      </FormControl>
+                          <InputLabel id="gender_label">Gender</InputLabel>
+                          <Select
+                            id="demo-simple-select-disabled-label"
+                            labelId="gender_label"
+                            label="Gender"
+                            name="gender"
+                            style={{ width: 210 }}
+                            size="small"
+                            defaultValue={address ? address.gender : ""}
+                            onChange={addAddress}
+                            sx={{
+                              m: 1,
+                            }}
+                            displayEmpty
+                          >
+                            <MenuItem value="male">Male</MenuItem>
+                            <MenuItem value="female">Female</MenuItem>
+                            <MenuItem value="others">Others</MenuItem>
+                          </Select>
+                        </FormControl>
 
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Father's name"
-                        name="father_name"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.father_name : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Father's contact"
-                        name="father_contact"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.father_contact : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Mother's Name"
-                        name="mother_name"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.mother_name : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Mother's Contact"
-                        name="mother_contact"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.mother_contact : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Father's name"
+                          label="Father's name"
+                          name="father_name"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.father_name : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Father's contact"
+                          label="Father's contact"
+                          name="father_contact"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.father_contact : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Mother's Name"
+                          label="Mother's Name"
+                          name="mother_name"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.mother_name : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Mother's Contact"
+                          label="Mother's Contact"
+                          name="mother_contact"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.mother_contact : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
 
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Address"
-                        name="address"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.address : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Village"
-                        name="village"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.village : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Taluk"
-                        name="taluk"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.taluk : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Education Qualification"
-                        name="education_qualification"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={
-                          address ? address.education_qualification : ""
-                        }
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        helperText="Name of College/ School"
-                        name="collage_or_school"
-                        multiline
-                        maxRows={10}
-                        style={{ width: 210 }}
-                        size="small"
-                        defaultValue={address ? address.collage_or_school : ""}
-                        onChange={addAddress}
-                        sx={{
-                          mt: 1,
-                          m: 1,
-                        }}
-                      />
-                    </FormGroup>
-                    {/* ))} */}
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Address"
+                          label="Address"
+                          name="address"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.address : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Village"
+                          label="Village"
+                          name="village"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.village : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Taluk"
+                          label="Taluk"
+                          name="taluk"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={address ? address.taluk : ""}
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Education Qualification"
+                          label="Education Qualification"
+                          name="education_qualification"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={
+                            address ? address.education_qualification : ""
+                          }
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          helperText="Name of College/ School"
+                          label="Name of College/ School"
+                          name="collage_or_school"
+                          multiline
+                          maxRows={10}
+                          style={{ width: 210 }}
+                          size="small"
+                          defaultValue={
+                            address ? address.collage_or_school : ""
+                          }
+                          onChange={addAddress}
+                          sx={{
+                            mt: 1,
+                            m: 1,
+                          }}
+                        />
+                      </FormGroup>
+                    )}
                     <FormGroup row>
                       <Button
                         variant="contained"

@@ -92,7 +92,7 @@ function AddConference(props) {
                   }}
                 />
                 <Typography sx={{ mt: 2, color: "white" }}>
-                  Start Meeting
+                  Join  Meeting
                 </Typography>
               </Box>
 

@@ -63,6 +63,9 @@ function Manifests(props) {
   };
 
 
+
+ 
+
    useEffect(() => {
 
       localStorage.getItem("AdvisorToken") &&
@@ -82,7 +85,18 @@ function Manifests(props) {
    }, []);
 
 
-  
+   const listManifests = () => {
+
+     axios
+       .post("http://127.0.0.1:8000/advisor/manifest", {
+         user: stdid,
+       })
+       .then((res) => {
+         console.log(res.data);
+         setWeeks(res.data);
+       });
+
+   };
 
   const manSubmit = (e) => {
     e.preventDefault();
@@ -104,6 +118,7 @@ function Manifests(props) {
       })
       .then((res) => {
         setWeeks(res.data)
+        listManifests()
         console.log(res.data)
       });
   };
@@ -129,15 +144,13 @@ function Manifests(props) {
      .then((res) => {
        console.log(res.data)
        setWeeks(res.data);
+      listManifests();
        
      });
    handleClose();
  };
 
-  // const formSubmit=(e)=>{
-  //   e.preventDefault()
-  //   console.log(e.target.value)
-  // }
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -157,7 +170,7 @@ function Manifests(props) {
     <div>
       {props.data === "advisor" ? (
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={12} md={4}>
             <Typography>Manifest</Typography>
             <List
               sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -204,14 +217,7 @@ function Manifests(props) {
                           sx={{ pl: 4 }}
                           onClick={() => {
                             setStdId(student.student.id);
-                            axios
-                              .post("http://127.0.0.1:8000/advisor/manifest", {
-                                user: student.student.id,
-                              })
-                              .then((res) => {
-                                console.log(res.data);
-                                setWeeks(res.data);
-                              });
+                            listManifests();
                           }}
                         >
                           <ListItemIcon>
@@ -234,7 +240,7 @@ function Manifests(props) {
               ))}
             </List>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={12} xs={12} sm={12} md={8}>
             <Paper
               elevation={0}
               sx={{
@@ -242,187 +248,193 @@ function Manifests(props) {
                 overflowY: "scroll",
               }}
             >
-              {weeks && weeks.map((week) => (
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    onClick={() => {
-                      setWeekId(week.id);
-                    
-                    }}
-                  >
-                    <Grid container>
-                      <Grid item xs={7}>
-                        <Typography>{week.week.week}</Typography>
+              {weeks &&
+                weeks.map((week) => (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      onClick={() => {
+                        setWeekId(week.week.id);
+                      }}
+                    >
+                      <Grid container>
+                        <Grid item xs={7}>
+                          <Typography>{week.week.week}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography>
+                            {weeks[0].status === "1" ? (
+                              <Chip
+                                label="Task completed"
+                                variant="outlined"
+                                style={{ backgroundColor: "green" }}
+                              />
+                            ) : weeks[0].status === "2" ? (
+                              <Chip
+                                label="Task need improvement"
+                                variant="outlined"
+                                style={{ backgroundColor: "yellow" }}
+                              />
+                            ) : weeks[0].status === "3" ? (
+                              <Chip
+                                label="Task critical"
+                                variant="outlined"
+                                style={{ backgroundColor: "orange" }}
+                              />
+                            ) : weeks[0].status === "4" ? (
+                              <Chip
+                                label="Task not Completed"
+                                variant="outlined"
+                                style={{ backgroundColor: "red" }}
+                              />
+                            ) : (
+                              <Chip
+                                label="Review Postponed"
+                                variant="outlined"
+                                style={{ backgroundColor: "blue" }}
+                              />
+                            )}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={3}>
-                        <Typography>
-                          {weeks[0].status === "1" ? (
-                            <Chip
-                              label="Task completed"
-                              variant="outlined"
-                              style={{ backgroundColor: "green" }}
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>MANIFEST</Typography>
+                      <Box component="form" onSubmit={manSubmit}>
+                        <FormControl component="fieldset">
+                          <FormGroup row style={{ width: 200 }}>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              className="status_selec"
+                              name="status"
+                              defaultValue={week ? week.status : ""}
+                              onChange={formchange}
+                              sx={{ m: 1 }}
+                            >
+                              <MenuItem value={1}>Task Completed</MenuItem>
+                              <MenuItem value={2}>
+                                Task need Improvement
+                              </MenuItem>
+                              <MenuItem value={3}>Task critical</MenuItem>
+                              <MenuItem value={4}>Task not Completed</MenuItem>
+                              <MenuItem value={5}>Review Postpond</MenuItem>
+                            </Select>
+                            <InputLabel id="demo-simple-select-label">
+                              Status
+                            </InputLabel>
+                          </FormGroup>
+
+                          <FormGroup row>
+                            <TextField
+                              id="outlined-multiline-flexible"
+                              helperText="Project Updates"
+                              name="updates"
+                              multiline
+                              maxRows={10}
+                              style={{ width: 210 }}
+                              defaultValue={week ? week.updates : ""}
+                              onChange={formchange}
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
                             />
-                          ) : weeks[0].status === "2" ? (
-                            <Chip
-                              label="Task need improvement"
-                              variant="outlined"
-                              style={{ backgroundColor: "yellow" }}
+                            <TextField
+                              id="outlined-multiline-flexible"
+                              helperText="Week Tasks"
+                              multiline
+                              name="week_task"
+                              maxRows={10}
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              style={{ width: 210 }}
+                              defaultValue={week ? week.week_task : ""}
+                              onChange={formchange}
                             />
-                          ) : weeks[0].status === "3" ? (
-                            <Chip
-                              label="Task critical"
-                              variant="outlined"
-                              style={{ backgroundColor: "orange" }}
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Reviewer Name"
+                              name="reviewer_name"
+                              defaultValue={week ? week.reviewer_name : ""}
+                              onChange={formchange}
                             />
-                          ) : weeks[0].status === "4" ? (
-                            <Chip
-                              label="Task not Completed"
-                              variant="outlined"
-                              style={{ backgroundColor: "red" }}
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Advisor Name"
+                              name="advisor_name"
+                              defaultValue={week ? week.advisor_name : ""}
+                              onChange={formchange}
                             />
-                          ) : (
-                            <Chip
-                              label="Review Postponed"
-                              variant="outlined"
-                              style={{ backgroundColor: "blue" }}
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Extra Workeout Review"
+                              name="extra_workouts"
+                              defaultValue={week ? week.extra_workouts : ""}
+                              onChange={formchange}
                             />
-                          )}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>MANIFEST</Typography>
-                    <Box component="form" onSubmit={manSubmit}>
-                      <FormControl component="fieldset">
-                        <FormGroup row style={{ width: 200 }}>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            className="status_selec"
-                            name="status"
-                            defaultValue={week ? week.status : ""}
-                            onChange={formchange}
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="English Review"
+                              name="english_review"
+                              defaultValue={week ? week.english_review : ""}
+                              onChange={formchange}
+                            />
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Score"
+                              name="total"
+                              defaultValue={week ? week.total : ""}
+                              onChange={formchange}
+                            />
+                            <TextField
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Star"
+                              name="star"
+                              defaultValue={week ? week.star : ""}
+                              onChange={formchange}
+                            />
+                          </FormGroup>
+                          <Button
+                            type="submit"
+                            variant="contained"
                             sx={{ m: 1 }}
                           >
-                            <MenuItem value={1}>Task Completed</MenuItem>
-                            <MenuItem value={2}>Task need Improvement</MenuItem>
-                            <MenuItem value={3}>Task critical</MenuItem>
-                            <MenuItem value={4}>Task not Completed</MenuItem>
-                            <MenuItem value={5}>Review Postpond</MenuItem>
-                          </Select>
-                          <InputLabel id="demo-simple-select-label">
-                            Status
-                          </InputLabel>
-                        </FormGroup>
-
-                        <FormGroup row>
-                          <TextField
-                            id="outlined-multiline-flexible"
-                            helperText="Project Updates"
-                            name="updates"
-                            multiline
-                            maxRows={10}
-                            style={{ width: 210 }}
-                            defaultValue={week ? week.updates : ""}
-                            onChange={formchange}
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                          />
-                          <TextField
-                            id="outlined-multiline-flexible"
-                            helperText="Week Tasks"
-                            multiline
-                            name="week_task"
-                            maxRows={10}
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            style={{ width: 210 }}
-                            defaultValue={week ? week.week_task : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Reviewer Name"
-                            name="reviewer_name"
-                            defaultValue={week ? week.reviewer_name : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Advisor Name"
-                            name="advisor_name"
-                            defaultValue={week ? week.advisor_name : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Extra Workeout Review"
-                            name="extra_workouts"
-                            defaultValue={week ? week.extra_workouts : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="English Review"
-                            name="english_review"
-                            defaultValue={week ? week.english_review : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Score"
-                            name="total"
-                            defaultValue={week ? week.total : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Star"
-                            name="star"
-                            defaultValue={week ? week.star : ""}
-                            onChange={formchange}
-                          />
-                        </FormGroup>
-                        <Button type="submit" variant="contained" sx={{ m: 1 }}>
-                          Update
-                        </Button>
-                      </FormControl>
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+                            Update
+                          </Button>
+                        </FormControl>
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
             </Paper>
           </Grid>
         </Grid>
@@ -432,286 +444,296 @@ function Manifests(props) {
           <span className="font-sans text-blue-700 font-semibold text-lg">
             Manifests{" "}
           </span>
-        <Grid container>
-          
-          <Grid item xs={4}>
-            <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-              component="nav"
-              aria-labelledby="nested-list-subheader"
-              subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
-                  Batches
-                </ListSubheader>
-              }
-            >
-              {batch.map((batch) => (
-                <>
-                  <ListItemButton
-                    key={batch.id}
-                    onClick={() => {
-                      setLst(batch.id);
-                      axios
-                        .post("http://127.0.0.1:8000/admin/stud_lst", {
-                          id: batch.id,
-                        })
-                        .then((res) => {
-                          console.log(res.data);
-                          setStudents(res.data);
-                        });
-                      handleListClick();
-                    }}
-                  >
-                    <ListItemIcon>
-                      <BatchPredictionIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={batch.Batch_name} />
-                    {lst == batch.id ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse
-                    in={lst == batch.id ? true : false}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    {students.map((student) => (
-                      <List component="div" disablePadding key={student.id}>
-                        <ListItemButton
-                          sx={{ pl: 4 }}
-                          onClick={() => {
-                            setStdId(student.student.id);
-                            axios
-                              .post("http://127.0.0.1:8000/advisor/manifest", {
-                                user: student.student.id,
-                              })
-                              .then((res) => {
-                                setWeeks(res.data);
-                              });
-                          }}
-                        >
-                          <ListItemIcon>
-                            <PersonIcon />
-                          </ListItemIcon>
-                          <ListItemText primary={student.student.first_name} />
-                        </ListItemButton>
-                      </List>
-                    ))}
-                  </Collapse>
-                </>
-              ))}
-            </List>
-          </Grid>
-          <Grid item xs={7}>
-            <Paper
-              elevation={5}
-              sx={{
-                height: "80vh",
-                // overflowY: "scroll",
-              }}
-            >
-              {weeks.map((week) => (
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    onClick={() => {
-                      setWeekId(week.id);
-                    }}
-                  >
-                    <Grid container>
-                      <Grid item xs={7}>
-                        <Typography>{week.week.week}</Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography>
-                          {weeks[0].status === "1" ? (
-                            <Chip
-                              label="Task completed"
-                              variant="outlined"
-                              style={{
-                                backgroundColor: "green",
-                                color: "white",
-                              }}
-                            />
-                          ) : weeks[0].status === "2" ? (
-                            <Chip
-                              label="Task need improvement"
-                              variant="outlined"
-                              style={{
-                                backgroundColor: "yellow",
-                                color: "white",
-                              }}
-                            />
-                          ) : weeks[0].status === "3" ? (
-                            <Chip
-                              label="Task critical"
-                              variant="outlined"
-                              style={{ backgroundColor: "orange" }}
-                            />
-                          ) : weeks[0].status === "4" ? (
-                            <Chip
-                              label="Task not Completed"
-                              variant="outlined"
-                              style={{ backgroundColor: "red" }}
-                            />
-                          ) : (
-                            <Chip
-                              label="Review Postponed"
-                              variant="outlined"
-                              style={{ backgroundColor: "blue" }}
-                            />
-                          )}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {/* <Typography>MANIFEST</Typography> */}
-                    <Box component="form" onSubmit={manSubmit}>
-                      <FormControl component="fieldset">
-                        <FormGroup row style={{ width: 200 }}>
-                          <Select
-                            disabled
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            className="status_selec"
-                            name="status"
-                            defaultValue={week ? week.status : ""}
-                            onChange={formchange}
-                            sx={{ m: 1 }}
-                            size="small"
+          <Grid container>
+            <Grid item xs={4}>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  bgcolor: "background.paper",
+                }}
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div" id="nested-list-subheader">
+                    Batches
+                  </ListSubheader>
+                }
+              >
+                {batch.map((batch) => (
+                  <>
+                    <ListItemButton
+                      key={batch.id}
+                      onClick={() => {
+                        setLst(batch.id);
+                        axios
+                          .post("http://127.0.0.1:8000/admin/stud_lst", {
+                            id: batch.id,
+                          })
+                          .then((res) => {
+                            console.log(res.data);
+                            setStudents(res.data);
+                          });
+                        handleListClick();
+                      }}
+                    >
+                      <ListItemIcon>
+                        <BatchPredictionIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={batch.Batch_name} />
+                      {lst == batch.id ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse
+                      in={lst == batch.id ? true : false}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      {students.map((student) => (
+                        <List component="div" disablePadding key={student.id}>
+                          <ListItemButton
+                            sx={{ pl: 4 }}
+                            onClick={() => {
+                              setStdId(student.student.id);
+                              axios
+                                .post(
+                                  "http://127.0.0.1:8000/advisor/manifest",
+                                  {
+                                    user: student.student.id,
+                                  }
+                                )
+                                .then((res) => {
+                                  setWeeks(res.data);
+                                });
+                            }}
                           >
-                            <MenuItem value={1}>Task Completed</MenuItem>
-                            <MenuItem value={2}>Task need Improvement</MenuItem>
-                            <MenuItem value={3}>Task critical</MenuItem>
-                            <MenuItem value={4}>Task not Completed</MenuItem>
-                            <MenuItem value={5}>Review Postpond</MenuItem>
-                          </Select>
-                          <InputLabel id="demo-simple-select-label">
-                            Status
-                          </InputLabel>
-                        </FormGroup>
+                            <ListItemIcon>
+                              <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={student.student.first_name}
+                            />
+                          </ListItemButton>
+                        </List>
+                      ))}
+                    </Collapse>
+                  </>
+                ))}
+              </List>
+            </Grid>
+            <Grid item xs={7}>
+              <Paper
+                elevation={5}
+                sx={{
+                  height: "80vh",
+                  // overflowY: "scroll",
+                }}
+              >
+                {weeks.map((week) => (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                      onClick={() => {
+                        setWeekId(week.id);
+                      }}
+                    >
+                      <Grid container>
+                        <Grid item xs={7}>
+                          <Typography>{week.week.week}</Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography>
+                            {weeks[0].status === "1" ? (
+                              <Chip
+                                label="Task completed"
+                                variant="outlined"
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                              />
+                            ) : weeks[0].status === "2" ? (
+                              <Chip
+                                label="Task need improvement"
+                                variant="outlined"
+                                style={{
+                                  backgroundColor: "yellow",
+                                  color: "white",
+                                }}
+                              />
+                            ) : weeks[0].status === "3" ? (
+                              <Chip
+                                label="Task critical"
+                                variant="outlined"
+                                style={{ backgroundColor: "orange" }}
+                              />
+                            ) : weeks[0].status === "4" ? (
+                              <Chip
+                                label="Task not Completed"
+                                variant="outlined"
+                                style={{ backgroundColor: "red" }}
+                              />
+                            ) : (
+                              <Chip
+                                label="Review Postponed"
+                                variant="outlined"
+                                style={{ backgroundColor: "blue" }}
+                              />
+                            )}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {/* <Typography>MANIFEST</Typography> */}
+                      <Box component="form" onSubmit={manSubmit}>
+                        <FormControl component="fieldset">
+                          <FormGroup row style={{ width: 200 }}>
+                            <Select
+                              disabled
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              className="status_selec"
+                              name="status"
+                              defaultValue={week ? week.status : ""}
+                              onChange={formchange}
+                              sx={{ m: 1 }}
+                              size="small"
+                            >
+                              <MenuItem value={1}>Task Completed</MenuItem>
+                              <MenuItem value={2}>
+                                Task need Improvement
+                              </MenuItem>
+                              <MenuItem value={3}>Task critical</MenuItem>
+                              <MenuItem value={4}>Task not Completed</MenuItem>
+                              <MenuItem value={5}>Review Postpond</MenuItem>
+                            </Select>
+                            <InputLabel id="demo-simple-select-label">
+                              Status
+                            </InputLabel>
+                          </FormGroup>
 
-                        <FormGroup row>
-                          <TextField
-                            disabled
-                            id="outlined-multiline-flexible"
-                            helperText="Project Updates"
-                            name="updates"
-                            multiline
-                            maxRows={10}
-                            style={{ width: 210 }}
-                            defaultValue={week ? week.updates : ""}
-                            onChange={formchange}
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            id="outlined-multiline-flexible"
-                            helperText="Week Tasks"
-                            multiline
-                            name="week_task"
-                            maxRows={10}
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            size="small"
-                            style={{ width: 210 }}
-                            defaultValue={week ? week.week_task : ""}
-                            onChange={formchange}
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Reviewer Name"
-                            name="reviewer_name"
-                            defaultValue={week ? week.reviewer_name : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Advisor Name"
-                            name="advisor_name"
-                            defaultValue={week ? week.advisor_name : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Extra Workeout Review"
-                            name="extra_workouts"
-                            defaultValue={week ? week.extra_workouts : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="English Review"
-                            name="english_review"
-                            defaultValue={week ? week.english_review : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Score"
-                            name="total"
-                            defaultValue={week ? week.total : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                          <TextField
-                            disabled
-                            sx={{
-                              mt: 1,
-                              m: 1,
-                            }}
-                            id="outlined-required"
-                            helperText="Star"
-                            name="star"
-                            defaultValue={week ? week.star : ""}
-                            onChange={formchange}
-                            size="small"
-                          />
-                        </FormGroup>
-                      </FormControl>
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </Paper>
+                          <FormGroup row>
+                            <TextField
+                              disabled
+                              id="outlined-multiline-flexible"
+                              helperText="Project Updates"
+                              name="updates"
+                              multiline
+                              maxRows={10}
+                              style={{ width: 210 }}
+                              defaultValue={week ? week.updates : ""}
+                              onChange={formchange}
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              id="outlined-multiline-flexible"
+                              helperText="Week Tasks"
+                              multiline
+                              name="week_task"
+                              maxRows={10}
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              size="small"
+                              style={{ width: 210 }}
+                              defaultValue={week ? week.week_task : ""}
+                              onChange={formchange}
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Reviewer Name"
+                              name="reviewer_name"
+                              defaultValue={week ? week.reviewer_name : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Advisor Name"
+                              name="advisor_name"
+                              defaultValue={week ? week.advisor_name : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Extra Workeout Review"
+                              name="extra_workouts"
+                              defaultValue={week ? week.extra_workouts : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="English Review"
+                              name="english_review"
+                              defaultValue={week ? week.english_review : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Score"
+                              name="total"
+                              defaultValue={week ? week.total : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                            <TextField
+                              disabled
+                              sx={{
+                                mt: 1,
+                                m: 1,
+                              }}
+                              id="outlined-required"
+                              helperText="Star"
+                              name="star"
+                              defaultValue={week ? week.star : ""}
+                              onChange={formchange}
+                              size="small"
+                            />
+                          </FormGroup>
+                        </FormControl>
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
         </div>
       )}
 
@@ -721,7 +743,7 @@ function Manifests(props) {
         <DialogContent>
           <Box component="form" onSubmit={createManifest}>
             <FormControl component="fieldset">
-              <FormGroup row style={{ width: 220 }}>
+              <FormControl sx={{ minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-label">Status</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -739,10 +761,14 @@ function Manifests(props) {
                   <MenuItem value={4}>Task not Completed</MenuItem>
                   <MenuItem value={5}>Review Postpond</MenuItem>
                 </Select>
-              </FormGroup>
-              <FormGroup row style={{ width: 220 }}>
+              </FormControl>
+              <FormControl sx={{ minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-helper-label">
+                  Week
+                </InputLabel>
                 <Select
-                  labelId="weeks_label"
+                  labelId="demo-simple-select-helper-label"
+                  label="Week"
                   name="week_select"
                   id="weeks"
                   className="week_select"
@@ -758,14 +784,14 @@ function Manifests(props) {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormGroup>
+              </FormControl>
               <FormGroup row>
                 <TextField
                   id="outlined-multiline-flexible"
                   helperText="Project Updates"
                   name="updates"
                   multiline
-                  maxRows={20}
+                  maxRows={10}
                   style={{ width: 210 }}
                   defaultValue={forms.project_updates}
                   onChange={formchange}
@@ -846,6 +872,7 @@ function Manifests(props) {
                   id="outlined-required"
                   helperText="Score"
                   name="total"
+                  type="number"
                   defaultValue={forms.total}
                   onChange={formchange}
                   size="small"
@@ -858,6 +885,7 @@ function Manifests(props) {
                   id="outlined-required"
                   helperText="Star"
                   name="star"
+                  type="number"
                   defaultValue={forms.star}
                   onChange={formchange}
                   size="small"

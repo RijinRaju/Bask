@@ -29,8 +29,8 @@ function WelcomePage(){
               <Button
                 className="slide1"
                 style={{
-                  backgroundColor: "#01ffff",
-                  color: "white",
+                  backgroundColor: "white",
+                  color: "black",
                   width: "30vh",
                   marginTop: "2vh",
                 }}
@@ -45,8 +45,8 @@ function WelcomePage(){
                 <Button
                   className="slide2"
                   style={{
-                    backgroundColor: "#01ffff",
-                    color: "white",
+                    backgroundColor: "white",
+                    color: "black",
                     width: "30vh",
                     marginTop: "2vh",
                   }}
