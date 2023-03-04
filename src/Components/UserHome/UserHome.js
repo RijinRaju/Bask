@@ -17,10 +17,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
-import TerminalIcon from "@mui/icons-material/Terminal";
-import BatchPredictionIcon from "@mui/icons-material/BatchPrediction";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import ContactsIcon from "@mui/icons-material/Contacts";
 import TaskIcon from "@mui/icons-material/Task";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -32,9 +28,12 @@ import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HomeIcon from "@mui/icons-material/Home";
+import HomeIcon from '@mui/icons-material/Home';
+import TextsmsIcon from '@mui/icons-material/Textsms';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import duo from '../../Assests/google.png'
 import Tooltip from '@mui/material/Tooltip'
+import PrivateRouting from '../../PrivateRouting'
 
 const drawerWidth = 240;
 
@@ -91,7 +90,10 @@ const mdTheme = createTheme();
 
 function UserHome() {
 
-  const navigate = useNavigate()
+
+const [selectedIndex, setSelectedIndex] = useState(0);
+
+const navigate = useNavigate()
 const [open, setOpen] = React.useState(true);
 const toggleDrawer = () => {
   setOpen(!open);
@@ -101,6 +103,12 @@ const toggleDrawer = () => {
    localStorage.removeItem("studentToken");
    navigate("/");
  };
+
+
+  const handleListItemClick = (event, index) => {
+
+    setSelectedIndex(index);
+  };
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -163,15 +171,16 @@ const toggleDrawer = () => {
           <List component="nav">
             <div className="font-sans hover:font-serif">
               <Link to="" style={{ color: "#000000" }}>
-                <ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 0}
+                  sx={{
+                    '&.Mui-selected':{backgroundColor:"#B2BEB5"}
+                  }}
+                  onClick={(e) => { handleListItemClick(e, 0) }}
+                >
                    <Tooltip title="Home" placement="right">
                   <ListItemIcon>
-                    <img
-                      src={home}
-                      width="25"
-                      height="25"
-                      
-                    />
+                    <HomeIcon/>
                   </ListItemIcon>
                   </Tooltip>
                   <ListItemText primary="Home" />
@@ -179,10 +188,16 @@ const toggleDrawer = () => {
               </Link>
 
               <Link to="task" style={{ color: "#000000" }}>
-                <ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 1}
+                  sx={{
+                    '&.Mui-selected': { backgroundColor: "#B2BEB5" }
+                  }}
+                  onClick={(e) => { handleListItemClick(e, 1) }}
+                >
                    <Tooltip title="Task" placement="right">
                   <ListItemIcon>
-                    <img src={task} width="25" height="25" />
+                      <TaskIcon/>
                   </ListItemIcon>
                   </Tooltip>
                   <ListItemText primary="Task" />
@@ -190,20 +205,32 @@ const toggleDrawer = () => {
               </Link>
 
               <Link to="room" style={{ color: "#000000" }}>
-                <ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 2}
+                  sx={{
+                    '&.Mui-selected': { backgroundColor: "#B2BEB5" }
+                  }}
+                  onClick={(e) => { handleListItemClick(e, 2) }}
+                >
                    <Tooltip title="Chat" placement="right">
                   <ListItemIcon>
-                    <img src={chat} width="25" height="25" />
+                      <TextsmsIcon/>
                   </ListItemIcon>
                   </Tooltip>
                   <ListItemText primary="Chat" />
                 </ListItemButton>
               </Link>
               <Link to="add_conference" style={{ color: "#000000",fontWeight:400 }}>
-                <ListItemButton>
+                <ListItemButton
+                  selected={selectedIndex === 3}
+                  sx={{
+                    '&.Mui-selected': { backgroundColor: "#B2BEB5" }
+                  }}
+                  onClick={(e) => { handleListItemClick(e, 3) }}
+                >
                    <Tooltip title="Video Call" placement="right">
                   <ListItemIcon>
-                    <img src={duo} width="25" height="25" />
+                      < VideoCallIcon/>
                   </ListItemIcon>
                   </Tooltip>
                   <ListItemText primary="Video Call" />
@@ -232,8 +259,9 @@ const toggleDrawer = () => {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Outlet />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}
+          >
+            <PrivateRouting/>
           </Container>
         </Box>
       </Box>

@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios'
+import './CheckTask.css'
 import Grid from '@mui/material/Grid'
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -54,13 +55,13 @@ function CheckTask() {
     <div>
       <Typography>Task Verify</Typography>
       <Grid container>
-        <Grid item xs={4} md={3}>
+        <Grid item xs={4} md={3} lg={3}>
           <List
+            className="taskList !shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)] "
             sx={{
-              width: "100%",
-              maxWidth: 360,
               bgcolor: "background.paper",
               height: "76vh",
+              marginRight: "20px",
             }}
             component="nav"
             aria-labelledby="nested-list-subheader"
@@ -127,16 +128,16 @@ function CheckTask() {
             ))}
           </List>
         </Grid>
-        <Grid xs={12} md={8}>
+        <Grid xs={12} md={8} lg={8}>
           <Paper
-            elevation={0}
+            className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
             sx={{
               height: "76vh",
               overflowY: "scroll",
             }}
           >
             {weeks.map((week) => (
-              <Accordion>
+              <Accordion className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"

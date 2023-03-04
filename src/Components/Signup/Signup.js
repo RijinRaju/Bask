@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import logo from '../../Assests/logo.png'
+import logo from '../../Assests/logo2.png'
 import { Helmet } from 'react-helmet'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl';
@@ -97,7 +97,7 @@ const navigate = useNavigate()
                 color: 'white',
               }}
             >
-              <Avatar sx={{ m: 1,backgroundColor:'black'}}>
+              <Avatar sx={{ m: 1}}>
                 <img src={logo} height="40" alt="logo" />
               </Avatar>
               <Typography component="h1" sx={{color:'black'}} variant="h5">

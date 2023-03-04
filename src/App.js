@@ -26,7 +26,7 @@ import AddConference from './Components/AddConference/AddConference'
 import Conference from './Components/Conference/Conference'
 import CheckTask from './Components/CheckTask/CheckTask';
 import WelcomePage from './Components/WelcomePage/WelcomePage';
-import ProtectedRoute from '../src/ProtectedRoute/ProtectedRoute'
+import PrivateRouting from './PrivateRouting';
 function App() {
 
 
@@ -59,7 +59,7 @@ function MainAppFunction() {
           <Route exact path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route exact path="/adm_login" element={<AdminLoginPage />} />
-          <Route path="/adm_home" element={<ProtectedRoute Component={AdminHomePage}/>}>
+          <Route path="/adm_home" element={<AdminHomePage />}>
             <Route path="" element={<Domains />} />
             <Route path="add_batch" element={<AddBatch />} />
             <Route path="add_advisor" element={<AddAdvisor />} />
@@ -79,15 +79,16 @@ function MainAppFunction() {
             <Route path="conf/:roomID" element={<Conference />} />
             <Route path="chk_task" element={<CheckTask />} />
           </Route>
-          <Route path="/home" element={<UserHome />} >
-            <Route path="" element={<Profile />} />
+        
+          <Route path="/home" element={<UserHome/>} >
+            <Route path="" element={<Profile/>} />
             <Route path="task" element={<Tasks />} />
             <Route path="room" element={<Room data='student' />} />
             <Route path='chat/:name' element={<Chat />} />
             <Route path="add_conference" element={<AddConference data="student" />} />
             <Route path="conf/:roomID" element={<Conference />} />
           </Route>
-
+        
         </Routes>
       </>
     </div>

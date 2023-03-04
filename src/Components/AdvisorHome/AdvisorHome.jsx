@@ -29,6 +29,7 @@ import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import Tooltip from '@mui/material/Tooltip'
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import {AdvisorPrivateRoute} from '../../PrivateRouting'
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -172,6 +173,9 @@ function AdvisorHome() {
             <Link to="" style={{ textDecoration: "none", color: "#787878" }}>
               <ListItemButton
                 selected={selectedIndex === 0}
+                sx={{
+                  "&.Mui-selected": { backgroundColor: "#B2BEB5" },
+                }}
                 onClick={(e) => {
                   handleListItemClick(e, 0);
                 }}
@@ -191,6 +195,9 @@ function AdvisorHome() {
             >
               <ListItemButton
                 selected={selectedIndex === 1}
+                sx={{
+                  "&.Mui-selected": { backgroundColor: "#B2BEB5" },
+                }}
                 onClick={(e) => {
                   handleListItemClick(e, 1);
                 }}
@@ -210,6 +217,9 @@ function AdvisorHome() {
             >
               <ListItemButton
                 selected={selectedIndex === 2}
+                sx={{
+                  "&.Mui-selected": { backgroundColor: "#B2BEB5" },
+                }}
                 onClick={(e) => {
                   handleListItemClick(e, 2);
                 }}
@@ -229,6 +239,9 @@ function AdvisorHome() {
             >
               <ListItemButton
                 selected={selectedIndex === 3}
+                sx={{
+                  "&.Mui-selected": { backgroundColor: "#B2BEB5" },
+                }}
                 onClick={(e) => {
                   handleListItemClick(e, 3);
                 }}
@@ -247,6 +260,9 @@ function AdvisorHome() {
             >
               <ListItemButton
                 selected={selectedIndex === 4}
+                sx={{
+                  "&.Mui-selected": { backgroundColor: "#B2BEB5" },
+                }}
                 onClick={(e) => {
                   handleListItemClick(e, 4);
                 }}
@@ -282,7 +298,7 @@ function AdvisorHome() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Outlet />
+            <AdvisorPrivateRoute/>
           </Container>
         </Box>
       </Box>

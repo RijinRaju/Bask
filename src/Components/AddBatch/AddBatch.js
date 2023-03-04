@@ -15,7 +15,7 @@ import axios from 'axios'
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { useForm } from "react-hook-form";
-import Box from '@mui/material/Box'
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
 import batch from '../../Assests/batch.png'
 import location from '../../Assests/location.png'
@@ -28,8 +28,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import user from '../../Assests/user.png'
-import CircularProgress from '@mui/material/CircularProgress';
 import LoadingBar from '../LoadingBar/LoadingBar'
+
+
 function AddBatch() {
 
   const [open, setOpen] = useState(false);
@@ -130,39 +131,41 @@ function AddBatch() {
                   <Card sx={{ backgroundColor: "black" }}>
                   </Card>
                   <nav aria-label="main mailbox folders">
-                    <List>
-                      <ListItem disablePadding>
-                        <ListItemButton>
+                    <List style={{
+                      cursor:"none"
+                    }}>
+                      <ListItem >
+                       
                           <ListItemIcon>
                             <img src={batch} width="25" height="25" />
                           </ListItemIcon>
                           <ListItemText primary={list.Batch_name} />
-                        </ListItemButton>
+                       
                       </ListItem>
-                      <ListItem disablePadding>
-                        <ListItemButton>
+                      <ListItem >
+                        
                           <ListItemIcon>
                             <img src={location} width="25" height="25" />
                           </ListItemIcon>
                           <ListItemText primary={list.location} />
-                        </ListItemButton>
+                  
                       </ListItem>
-                      <ListItem disablePadding>
-                        <ListItemButton>
+                      <ListItem >
+                      
                           <ListItemIcon>
                             <img src={date} width="25" height="25" />
                           </ListItemIcon>
                           <ListItemText primary={list.start_date} />
-                        </ListItemButton>
+                      
                       </ListItem>
                       <Divider />
-                      <ListItem disablePadding>
-                        <ListItemButton>
+                      <ListItem >
+                        
                           <ListItemIcon>
                             <img src={user} width="25" height="25" />
                           </ListItemIcon>
                           <ListItemText primary={list.batch_advisor.first_name} />
-                        </ListItemButton>
+                        
                       </ListItem>
                     </List>
                   </nav>

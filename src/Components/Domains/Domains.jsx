@@ -107,8 +107,7 @@ function Domains() {
           return (
             <Grid item key={domain.id} md={6} xs={12}>
               <Paper
-                elevation={3}
-                className="domain_paper"
+                className="domain_paper !shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
                 style={{
                   width: "400px",
                   height: 100,

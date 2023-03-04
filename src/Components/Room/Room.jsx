@@ -42,6 +42,7 @@ function Room(props) {
   const[endUser,setEndUser] = useState(0)
   const[room_id,setRoomId] = useState(0)
   const[displayName,setDisplayName] = useState('')
+  const[showReceiver,setShowReceiver] = useState(null)
 
   
   if(props.data === 'student'){
@@ -53,22 +54,48 @@ function Room(props) {
 
   }
   
+  const DisplayChat = ()=>{
+ axios
+   .post("http://127.0.0.1:8000/advisor/chat_record", {
+     sender: user,
+     room_name: endUser,
+   })
+   .then((res) => {
+     setAllMsg(res.data);
+     console.log("set all messsages",res.data);
+   });
+  }
+
+ const DisplayStudentChat = ()=>{
+   axios
+     .post("http://127.0.0.1:8000/advisor/chat_record", {
+       sender: endUser,
+       room_name: user,
+     })
+     .then((res) => {
+       console.log(res.data);
+       setAllMsg(res.data);
+     });
+ }
 
 
   useEffect(() => {
-    axios.post("http://127.0.0.1:8000/advisor/chat_list", {
+   
+    axios
+      .post("http://127.0.0.1:8000/advisor/chat_list", {
         id: user,
       })
       .then((res) => {
         setStudent(res.data);
       });
-
     if(props.data == "student"){
-    axios.post("http://127.0.0.1:8000/adv_list",{
-      id:user
-    }).then((res)=>{
-      setAdvisor(res.data)
-    })
+     axios
+       .post("http://127.0.0.1:8000/adv_list", {
+         id: user,
+       })
+       .then((res) => {
+         setAdvisor(res.data);
+       });
   }
 
   if (receiver === "") return;
@@ -90,9 +117,12 @@ let sender = (e) => {
 
   client.onmessage = (e) => {
     const value = JSON.parse(e.data);
-    console.log("values..", value);
+    DisplayChat()
+    DisplayStudentChat()
     setMsg([...msg, value.message]);
+    setShowReceiver(value.receiver)
     setRoomId(value.room);
+    
   };
 
 };
@@ -106,194 +136,171 @@ let sender = (e) => {
     <div>
       {/* chat room for advisors */}
       {props.data == "advisor" ? (
-        <Grid container>
-          <Grid item xs={3}>
-            <Box sx={{ height: "80vh", backgroundColor: "white" }}>
-              <Paper
-                elevation={5}
-                sx={{ height: "80vh" }}
-                className="rounded-xl"
-              >
-                <List
-                  sx={{
-                    width: "100%",
-                    maxWidth: 360,
-                    bgcolor: "background.paper",
-                  }}
-                  component="nav"
-                  aria-labelledby="nested-list-subheader"
-                  subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                      students
-                    </ListSubheader>
-                  }
+        <div>
+          <Typography>Messages</Typography>
+          <Grid container>
+            <Grid item xs={3}>
+              <Box sx={{ height: "80vh", backgroundColor: "white" }}>
+                <Paper
+                  sx={{ height: "80vh" }}
+                  className="rounded-xl !shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
                 >
-                  {student.map((student) => (
-                    <Paper elevation={3}>
-                      <ListItemButton
-                        key={student.id}
-                        onClick={(e) => {
-                          setReceiver(student.student.id);
-                          setDisplayName(student.student.first_name);
-                          setEndUser(student.student.id);
-                          setMsg("");
-                          setAllMsg("");
+                  <List
+                    sx={{
+                      width: "100%",
+                      maxWidth: 360,
+                      bgcolor: "background.paper",
+                    }}
+                    component="nav"
+                    aria-labelledby="nested-list-subheader"
+                    subheader={
+                      <ListSubheader component="div" id="nested-list-subheader">
+                        students
+                      </ListSubheader>
+                    }
+                  >
+                    {student.map((student) => (
+                      <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
+                        <ListItemButton
+                          key={student.id}
+                          onClick={(e) => {
+                            setReceiver(student.student.id);
+                            setDisplayName(student.student.first_name);
+                            setEndUser(student.student.id);
+                            setMsg("");
+                            setAllMsg("");
 
-                          axios
-                            .post("http://127.0.0.1:8000/advisor/chat_record", {
-                              sender: user,
-                              room_name: student.student.id,
-                            })
-                            .then((res) => {
-                              setAllMsg(res.data);
-                              console.log(res.data);
-                            });
-                        }}
-                      >
-                        <ListItemIcon>
-                          <Avatar alt={student.student.first_name}></Avatar>
-                        </ListItemIcon>
-                        <ListItemText primary={student.student.first_name} />
-                      </ListItemButton>
-                    </Paper>
-                  ))}
-                </List>
-              </Paper>
-            </Box>
-          </Grid>
-          <Grid item xs={8}>
-            <Paper
-              component="form"
-              sx={{ ml: 1, backgroundColor: "#F3EFE0" }}
-              onSubmit={handleSubmit((e) => sender(e))}
-            >
+                            DisplayChat()
+                          }}
+                        >
+                          <ListItemIcon>
+                            <Avatar alt={student.student.first_name}></Avatar>
+                          </ListItemIcon>
+                          <ListItemText primary={student.student.first_name} />
+                        </ListItemButton>
+                      </Paper>
+                    ))}
+                  </List>
+                </Paper>
+              </Box>
+            </Grid>
+            <Grid item xs={8}>
               <Paper
-                sx={{
-                  height: 40,
-                }}
+                component="form"
+                sx={{ ml: 1, backgroundColor: "#F3EFE0" }}
+                onSubmit={handleSubmit((e) => sender(e))}
+                className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
               >
-                {receiver && (
-                  <Stack direction="row">
-                    <Avatar
-                      alt={advisor.first_name}
-                      sx={{
-                        ml: 1,
-                      }}
-                    ></Avatar>
-                    <Typography
-                      sx={{
-                        m: 1,
-                      }}
-                    >
-                      {" "}
-                      {displayName.toUpperCase()}
-                    </Typography>
-                  </Stack>
-                )}
-              </Paper>
-              <Paper
-                sx={{
-                  height: "65vh",
-                  overflowY: "scroll",
-                }}
-              >
-                {allmsg ? (
-                  allmsg.map((msg) =>
-                    msg.sender.id == user ? (
-                      <Box
-                        key={msg.id}
+                <Paper
+                  sx={{
+                    height: 40,
+                  }}
+                >
+                  {receiver && (
+                    <Stack direction="row">
+                      <Avatar
+                        alt={advisor.first_name}
                         sx={{
-                          width: 200,
-                          height: 50,
-                          backgroundColor: "#B2B2B2",
-
-                          borderRadius: "20px 20px 0px 20px",
-                          mt: 2,
-                          m: 3,
-                          ml: 50,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          ml: 1,
+                        }}
+                      ></Avatar>
+                      <Typography
+                        sx={{
+                          m: 1,
                         }}
                       >
-                        {msg.message}
-                      </Box>
-                    ) : (
-                      <Box
-                        key={msg.id}
-                        sx={{
-                          width: 200,
-                          height: 50,
-                          backgroundColor: "#B2B2B2",
-                          borderRadius: "20px 20px 0px 20px",
-                          mt: 2,
-                          m: 3,
+                        {" "}
+                        {displayName.toUpperCase()}
+                      </Typography>
+                    </Stack>
+                  )}
+                </Paper>
+                <Paper
+                  sx={{
+                    height: "65vh",
+                    overflowY: "scroll",
+                  }}
+                  className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
+                >
+                  {allmsg ? (
+                    allmsg.map((msg) =>
+                      msg.sender.id == user ? (
+                        <Box
+                          key={msg.id}
+                          sx={{
+                            width: '40vh',
+                            height: 50,
+                            backgroundColor: "#B2B2B2",
 
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {msg.message}
-                      </Box>
+                            borderRadius: "20px 20px 0px 20px",
+                            mt: 2,
+                            m: 3,
+                            ml: 50,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {msg.message}
+                        </Box>
+                      ) : (
+                        <Box
+                          key={msg.id}
+                          sx={{
+                            width: '40vh',
+                            height: 50,
+                            backgroundColor: "#B2B2B2",
+                            borderRadius: "20px 20px 0px 20px",
+                            mt: 2,
+                            m: 3,
+
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {msg.message}
+                        </Box>
+                      )
                     )
-                  )
-                ) : (
-                  <Typography></Typography>
-                )}
-                {msg != "" &&
-                  msg.map((msg) => (
-                    <Box
-                      sx={{
-                        width: 200,
-                        height: 50,
-                        backgroundColor: "#B2B2B2",
-                        borderRadius: "20px 20px 20px 0px",
-                        mt: 2,
-                        m: 3,
-                        ml: 60,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {msg}
-                    </Box>
-                  ))}
-              </Paper>
-              <Stack
-                spacing={3}
-                sx={{ display: "flex", justifyContent: "end" }}
-                direction="row"
-              >
-                <TextField
-                  variant="standard"
-                  name="message"
-                  ref={clearText}
-                  placeholder=" write something...."
-                  style={{ width: "90vh", height: "5vh", margin: "2vh" }}
-                  className="bg-gray-300 rounded-lg "
-                  InputProps={{ disableUnderline: true }}
-                  {...register("message", { required: true })}
-                />
+                  ) : (
+                    <Typography></Typography>
+                  )}
+                 
+                </Paper>
+                <Stack
+                  spacing={3}
+                  sx={{ display: "flex", justifyContent: "end" }}
+                  direction="row"
+                >
+                  <TextField
+                    variant="standard"
+                    name="message"
+                    ref={clearText}
+                    placeholder=" write something...."
+                    style={{ width: "90vh", height: "5vh", margin: "2vh" }}
+                    className="bg-gray-300 rounded-lg "
+                    InputProps={{ disableUnderline: true }}
+                    {...register("message", { required: true })}
+                  />
 
-                {errors.message && <p></p>}
-                <Button type="submit">
-                  <SendIcon />
-                </Button>
-              </Stack>
-            </Paper>
+                  {errors.message && <p></p>}
+                  <Button type="submit">
+                    <SendIcon />
+                  </Button>
+                </Stack>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       ) : (
         // chat room for student
         <Grid container>
           <Grid item xs={12} md={3}>
             <Box sx={{ height: "80vh", backgroundColor: "white" }}>
               <Paper
-                elevation={5}
                 sx={{ height: "80vh" }}
-                className="rounded-xl"
+                className="rounded-xl !shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
               >
                 <List
                   sx={{
@@ -305,12 +312,12 @@ let sender = (e) => {
                   aria-labelledby="nested-list-subheader"
                   subheader={
                     <ListSubheader component="div" id="nested-list-subheader">
-                      ADVISOR
+                      ADVISORS
                     </ListSubheader>
                   }
                 >
                   {advisor.map((advisor) => (
-                    <Paper elevation={3}>
+                    <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
                       <ListItemButton
                         key={advisor.id}
                         onClick={(e) => {
@@ -319,15 +326,7 @@ let sender = (e) => {
                           setEndUser(advisor.id);
                           setMsg("");
                           setAllMsg("");
-                          axios
-                            .post("http://127.0.0.1:8000/advisor/chat_record", {
-                              sender: advisor.id,
-                              room_name: user,
-                            })
-                            .then((res) => {
-                              console.log(res.data);
-                              setAllMsg(res.data);
-                            });
+                          DisplayStudentChat()
                         }}
                       >
                         <ListItemIcon>
@@ -343,6 +342,7 @@ let sender = (e) => {
           </Grid>
           <Grid item xs={12} md={9}>
             <Paper
+              className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
               component="form"
               sx={{ ml: 1 }}
               onSubmit={handleSubmit((e) => sender(e))}
@@ -383,7 +383,7 @@ let sender = (e) => {
                       <Box
                         key={msg.id}
                         sx={{
-                          width: 200,
+                          width: '40vh',
                           height: 50,
                           backgroundColor: "#B2B2B2",
                           borderRadius: "20px 20px 20px 0px",
@@ -401,7 +401,7 @@ let sender = (e) => {
                       <Box
                         key={msg.id}
                         sx={{
-                          width: 200,
+                          width: '40vh',
                           height: 50,
                           backgroundColor: "#b2b2b2",
                           borderRadius: "20px 20px 0px 20px",
@@ -416,25 +416,7 @@ let sender = (e) => {
                       </Box>
                     )
                   )}
-                {msg != "" &&
-                  msg.map((msg) => (
-                    <Box
-                      sx={{
-                        width: 200,
-                        height: 50,
-                        backgroundColor: "#b2b2b2",
-                        borderRadius: "20px 20px 20px 0px",
-                        mt: 2,
-                        m: 3,
-                        ml: 60,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {msg}
-                    </Box>
-                  ))}
+                
               </Paper>
               <Stack
                 spacing={3}
@@ -444,8 +426,8 @@ let sender = (e) => {
                 <TextField
                   variant="standard"
                   name="message"
-                  placeholder=" write something...."
-                  style={{ width: "90vh", height: "5vh", margin: "2vh" }}
+                  placeholder="write something...."
+                  style={{ width: "90vh", height: "5vh", margin: "20px" }}
                   className="bg-gray-300 rounded-lg "
                   InputProps={{ disableUnderline: true }}
                   {...register("message", { required: true })}

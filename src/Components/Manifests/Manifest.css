@@ -1,7 +1,14 @@
-.status_selec{
-    min-width: 30vh;
+
+/* @media screen and (min-width:863px) and (max-width:1000px)
+{
+    .manifest_list{
+        width: 50vh;
+    }
+} */
+
+@media screen and (min-width:280px) and(max-width:899px) {
+    .manifest_list{
+        width: 90vh;
+    }
 }
 
-.week_selec{
-    min-width: 30vh;
-}

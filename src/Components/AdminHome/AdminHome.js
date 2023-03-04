@@ -36,6 +36,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
+import {AdminPrivateRoute} from '../../PrivateRouting'
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -96,7 +97,7 @@ function AdminHome() {
 
     const [open, setOpen] = useState(false);
     const [preview ,setPreview] = useState();
-    const [user,setUser] = useState(0)
+   
 
     const profile = useRef()
 
@@ -111,13 +112,9 @@ function AdminHome() {
     };
 
 
-    !user && setUser(jwtDecode(localStorage.getItem('adminToken')).user_id)
+    
 
-    const logout = () => {
-        localStorage.removeItem("adminToken")
-        navigate('/adm_login')
-    }
-
+    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const opens = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -127,8 +124,10 @@ function AdminHome() {
         setAnchorEl(null);
     };
 
-
+    const token = localStorage.getItem('adminToken')
+    const [user, setUser] = useState(token ? jwtDecode(token).user_id : 0)
     useEffect(()=>{
+        
         axios.post('http://127.0.0.1:8000/admin/prf_load',{
             user:user
         }
@@ -137,6 +136,13 @@ function AdminHome() {
             setPreview(res.data[0].img)
         })
     },[])
+
+
+    const logout = () => {
+        localStorage.removeItem("adminToken")
+        setUser(0) 
+        navigate('/adm_login')
+    }
 
 
     const formdata = new FormData()
@@ -410,7 +416,7 @@ function AdminHome() {
                 >
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} >
-                        <Outlet />
+                        <AdminPrivateRoute/>
                     </Container>
                 </Box>
             </Box>

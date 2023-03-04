@@ -68,12 +68,11 @@ const[imgFile,setImgFile]= useState(null)
 
   return (
     <div>
-  
+      <span className="font-sans text-blue-700 font-semibold text-lg">Add Advisors</span>
       <Grid container spacing={3} >
-        <span className="font-sans text-blue-700 font-semibold text-lg">Add Advisors</span>
-        <Grid item md={6} m={2}>
+        <Grid item md={6} sx={{mt:2}}>
           <Paper m={3}
-          elevation={5}
+            className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)] "
           component="form"
           onSubmit={handleSubmit((e)=>AdvisorsFormSubmit(e))}
           >
@@ -175,9 +174,10 @@ const[imgFile,setImgFile]= useState(null)
         </Grid>
         <Grid item md={3} mt={1} >
           <Paper
-            elevation={5}
+            className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
           sx={{
-            height:"30vh"
+            height:"30vh",
+            width:"50vh"
           }}
           
           > <Avatar

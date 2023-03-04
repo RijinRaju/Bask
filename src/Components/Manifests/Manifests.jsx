@@ -37,6 +37,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import MuiAlert from "@mui/material/Alert";
+import SnackBar from '../SnackBar/SnackBar'
 
 function Manifests(props) {
   const [listOpen, setListOpen] = useState(true);
@@ -49,58 +51,44 @@ function Manifests(props) {
   const [weeks, setWeeks] = useState([]);
   const [stdid, setStdId] = useState(0);
   const [weekId, setWeekId] = useState(0);
-  const[lstWeeks,setLstWeeks] = useState([])
+  const [lstWeeks, setLstWeeks] = useState([]);
   const [exManifest, setExManifests] = useState([]);
-  const [forms, setForms] = useState({
-    
-  });
+  const [forms, setForms] = useState({});
+  const[snackOpen,setSnackOpen] = useState(null)
 
   const formchange = (e) => {
     const { name, value } = e.target;
-    if (value != ""){
-    setForms((forms) => ({ ...forms, [name]: value }));
+    if (value != "") {
+      setForms((forms) => ({ ...forms, [name]: value }));
     }
   };
 
+  useEffect(() => {
+    localStorage.getItem("AdvisorToken") &&
+      setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
 
+    axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
+      setBatch(res.data);
+    });
 
- 
-
-   useEffect(() => {
-
-      localStorage.getItem("AdvisorToken") &&
-        setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
-
-     axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
-       setBatch(res.data);
-     });
-
-   
-    axios.get('http://127.0.0.1:8000/admin/weeks').then((res)=>{
+    axios.get("http://127.0.0.1:8000/admin/weeks").then((res) => {
       setLstWeeks(res.data);
- 
-    })
-   
-                    
-   }, []);
+    });
+  }, []);
 
-
-   const listManifests = () => {
-
-     axios
-       .post("http://127.0.0.1:8000/advisor/manifest", {
-         user: stdid,
-       })
-       .then((res) => {
-         console.log(res.data);
-         setWeeks(res.data);
-       });
-
-   };
+  const listManifests = () => {
+    axios
+      .post("http://127.0.0.1:8000/advisor/manifest", {
+        user: stdid,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setWeeks(res.data);
+      });
+  };
 
   const manSubmit = (e) => {
     e.preventDefault();
- 
 
     axios
       .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
@@ -117,40 +105,38 @@ function Manifests(props) {
         user: stdid,
       })
       .then((res) => {
-        setWeeks(res.data)
-        listManifests()
-        console.log(res.data)
+        setSnackOpen("Manifest is Updated");
+        setWeeks(res.data);
+        listManifests();
+      
       });
   };
 
- const createManifest = (e) => {
-   e.preventDefault();
-   console.log(forms);
+  const createManifest = (e) => {
+    e.preventDefault();
+    console.log(forms);
 
-   axios
-     .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
-       week: forms.week_select,
-       status: forms.status,
-       week_task: forms.week_task,
-       updates: forms.updates,
-       reviewer_name: forms.reviewer_name,
-       advisor_name: forms.advisor_name,
-       extra_workouts: forms.extra_workouts,
-       english_review: forms.english_review,
-       total: forms.total,
-       star: forms.star,
-       user: stdid,
-     })
-     .then((res) => {
-       console.log(res.data)
-       setWeeks(res.data);
-      listManifests();
-       
-     });
-   handleClose();
- };
-
-  
+    axios
+      .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
+        week: forms.week_select,
+        status: forms.status,
+        week_task: forms.week_task,
+        updates: forms.updates,
+        reviewer_name: forms.reviewer_name,
+        advisor_name: forms.advisor_name,
+        extra_workouts: forms.extra_workouts,
+        english_review: forms.english_review,
+        total: forms.total,
+        star: forms.star,
+        user: stdid,
+      })
+      .then((res) => {
+        setSnackOpen("Manifest is created");
+        setWeeks(res.data);
+        listManifests();
+      });
+    handleClose();
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -160,22 +146,25 @@ function Manifests(props) {
     setOpen(false);
   };
 
- 
-
   const handleListClick = () => {
     setListOpen(!listOpen);
   };
 
   return (
     <div>
+      <Typography>Manifest</Typography>
+      {snackOpen && (
+        <SnackBar snack={true} msg={snackOpen} setSnackOpen={setSnackOpen} />
+      )}
+
       {props.data === "advisor" ? (
         <Grid container>
-          <Grid item xs={12} sm={12} md={4}>
-            <Typography>Manifest</Typography>
+          <Grid item xs={12} sm={12} md={5}>
             <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+              sx={{ width: "90%", bgcolor: "background.paper" }}
               component="nav"
               aria-labelledby="nested-list-subheader"
+              className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)] manifest_list"
               subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
                   Advisors
@@ -240,14 +229,18 @@ function Manifests(props) {
               ))}
             </List>
           </Grid>
-          <Grid item xs={12} xs={12} sm={12} md={8}>
-            <Paper
-              elevation={0}
-              sx={{
-                height: "80vh",
-                overflowY: "scroll",
-              }}
-            >
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            style={{
+              height: "75vh",
+              overflow: "auto",
+              marginTop: "4px",
+            }}
+          >
+            <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
               {weeks &&
                 weeks.map((week) => (
                   <Accordion>
@@ -452,6 +445,7 @@ function Manifests(props) {
                   maxWidth: 360,
                   bgcolor: "background.paper",
                 }}
+                className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
@@ -522,14 +516,14 @@ function Manifests(props) {
             </Grid>
             <Grid item xs={7}>
               <Paper
-                elevation={5}
+                className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
                 sx={{
                   height: "80vh",
                   // overflowY: "scroll",
                 }}
               >
                 {weeks.map((week) => (
-                  <Accordion>
+                  <Accordion className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"

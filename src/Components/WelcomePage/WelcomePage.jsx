@@ -3,60 +3,24 @@ import {Link} from 'react-router-dom'
 import './WelcomePage.css';
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import { Typography } from '@mui/material';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import Home from '../Home/Home';
+
+
 function WelcomePage(){
 
     return (
-      <div className="parent">
-        <div className="child">
-          <Grid container>
-            <Grid item xs={12} md={4}>
-                <Link to="login">
-              <Button
-                className="slide"
-                style={{
-                  backgroundColor: "white",
-                  color: "black",
-                  width: "30vh",
-                  marginTop: "2vh",
-                }}
-              >
-                &nbsp;
-              </Button>
-              </Link>
-            </Grid>
-            <Grid item xs={12} md={4}>
-                <Link to="adv_login">
-              <Button
-                className="slide1"
-                style={{
-                  backgroundColor: "white",
-                  color: "black",
-                  width: "30vh",
-                  marginTop: "2vh",
-                }}
-              >
-                Advisor
-              </Button>
-              </Link>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Link to="adm_login">
-                {" "}
-                <Button
-                  className="slide2"
-                  style={{
-                    backgroundColor: "white",
-                    color: "black",
-                    width: "30vh",
-                    marginTop: "2vh",
-                  }}
-                >
-                  Admin
-                </Button>
-              </Link>
-            </Grid>
-          </Grid>
-        </div>
+     <div className="welcome">
+        <Stack spacing={2}>
+        <Header />
+        <Home/>
+        <Footer/>
+        </Stack>
       </div>
     );
 }

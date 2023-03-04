@@ -27,6 +27,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import jwtDecode from 'jwt-decode';
 import PersonOffIcon from "@mui/icons-material/PersonOff";
+import FormControl from "@mui/material/FormControl";
+
 function Report() {
  
  const {
@@ -86,9 +88,7 @@ useEffect(()=>{
     return (
       <div>
         <div>
-          <span className="font-sans text-blue-700 font-semibold text-lg">
-            Add Report{" "}
-          </span>
+          <Typography>Report</Typography>
           <Grid container spacing={3}>
             {/* listing and creating batches */}
 
@@ -102,7 +102,7 @@ useEffect(()=>{
                         <ListItem disablePadding>
                           <ListItemButton>
                             <ListItemIcon>
-                              <PersonOffIcon /> Terminated: 
+                              <PersonOffIcon /> Terminated:
                             </ListItemIcon>
                             <ListItemText primary={list.students} />
                           </ListItemButton>
@@ -110,7 +110,8 @@ useEffect(()=>{
                         <ListItem disablePadding>
                           <ListItemButton>
                             <ListItemIcon>
-                          <GroupsIcon/>Total Students: 
+                              <GroupsIcon />
+                              Total Students:
                             </ListItemIcon>
                             <ListItemText primary={list.eliminated} />
                           </ListItemButton>
@@ -126,9 +127,7 @@ useEffect(()=>{
                         <Divider />
                         <ListItem disablePadding>
                           <ListItemButton>
-                            <ListItemIcon>
-                              Notes:
-                            </ListItemIcon>
+                            <ListItemIcon>Notes:</ListItemIcon>
                             <ListItemText primary={list.note} />
                           </ListItemButton>
                         </ListItem>
@@ -197,29 +196,35 @@ useEffect(()=>{
                     )}
                   </Grid>
                   <Grid xs={4} sx={{ m: 2 }}>
-                    <Select
-                      name="batch"
-                      id="batch"
-                      defaultValue={batch.id}
-                      sx={{ input: { color: "white" },width:250 }}
-                      InputLabelProps={{
-                        style: { color: "#fff" },
-                      }}
-                      {...register("batch",{
-                          required:true,
-                      })}
-                    >
-                      {batch && batch.map((batch) => (
-                        <MenuItem value={batch.id} key={batch.id}>
-                          {batch.Batch_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {errors.batch && (
-                      <span style={{ color: "red" }}>
-                        This field is required
-                      </span>
-                    )}
+                    <FormControl>
+                      <InputLabel id="batch">Batch</InputLabel>
+
+                      <Select
+                        name="batch"
+                        id="batch"
+                        label="Batch"
+                        defaultValue={batch.id}
+                        sx={{ input: { color: "white" }, width: 250 }}
+                        InputLabelProps={{
+                          style: { color: "#fff" },
+                        }}
+                        {...register("batch", {
+                          required: true,
+                        })}
+                      >
+                        {batch &&
+                          batch.map((batch) => (
+                            <MenuItem value={batch.id} key={batch.id}>
+                              {batch.Batch_name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                      {errors.batch && (
+                        <span style={{ color: "red" }}>
+                          This field is required
+                        </span>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid xs={12} sx={{ m: 2 }}>
                     <TextField

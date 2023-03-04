@@ -3,7 +3,7 @@ import React,{useState} from "react";
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import logo from '../../Assests/logo.png'
+import logo from '../../Assests/logo2.png'
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -75,7 +75,7 @@ function AdvisorLogin() {
                                   alignItems: "center",
                               }}
                           >
-                              <Avatar sx={{ m: 1, bgcolor: "black" }}>
+                              <Avatar sx={{ m: 1}}>
                                   <img src={logo} height="40" alt="logo" />
                               </Avatar>
 

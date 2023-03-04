@@ -28,7 +28,9 @@ const tasks=()=>{
     <div>
       <span className="font-sans text-blue-700 font-semibold text-lg">Week Tasks</span>
       {task.map((task) => (
-        <Accordion>
+        <Accordion
+        className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"

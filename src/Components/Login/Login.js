@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import "./Login.css";
 import {Link,useNavigate} from 'react-router-dom'
-import logo from '../../Assests/logo.png'
+import logo from '../../Assests/logo2.png'
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -34,12 +34,18 @@ axios.post('http://127.0.0.1:8000/api/token',{
   email:e.email,
   password:e.password,
 }).then(res=>{
-  console.log(res.data.access)
+
+  if (res.status === 401){
+    alert("hello")
+  }
   if(res.status === 200){
     
     localStorage.setItem('studentToken',JSON.stringify(res.data.access))
     navigate('/home')
   }
+  
+
+  
 })
 }
 
@@ -67,7 +73,7 @@ axios.post('http://127.0.0.1:8000/api/token',{
                 color:'#e3e5e8',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "black" }}>
+              <Avatar sx={{ m: 1}}>
                 <img src={logo} height="40" alt="logo"/>
               </Avatar>
 

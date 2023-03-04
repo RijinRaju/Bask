@@ -1,0 +1,7 @@
+
+@media screen and (min-width:280px) and (max-width:896px) {
+    .taskList{
+        width: 90vh
+    }
+    
+}

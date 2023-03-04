@@ -127,7 +127,7 @@ function ListAdvisors() {
     <div>
       <span className="font-sans text-blue-700 font-semibold text-lg">Advisors </span>
 
-      <Paper elevation={3}>
+      <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
         <Card>
           {advisors.map((advisor) => {
             let image_url = advisor.img
