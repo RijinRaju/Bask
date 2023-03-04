@@ -63,7 +63,7 @@ const[imgFile,setImgFile]= useState(null)
   }
 
   if(processing){
-    <LoadingBar/>
+    return <LoadingBar/>
   }
 
   return (

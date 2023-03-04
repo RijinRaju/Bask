@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
@@ -34,23 +35,6 @@ function App() {
 
 
         <Router>
-          <MainAppFunction />
-        </Router>
-    </div>
-  );
-}
-
-
-export default App;
-
-
-function MainAppFunction() {
-
-
-  const navigate = useNavigate()
-  return (
-    <div className="App font-mono">
-      <>
         <Routes>
           <Route exact path="/" element={<WelcomePage />} />
           <Route exact path="/login" element={<LoginPage />} />
@@ -76,18 +60,23 @@ function MainAppFunction() {
             <Route path="conf/:roomID" element={<Conference />} />
             <Route path="chk_task" element={<CheckTask />} />
           </Route>
-        
-          <Route path="/home" element={<UserHome/>} >
-            <Route path="" element={<Profile/>} />
+
+          <Route path="/home" element={<UserHome />} >
+            <Route path="" element={<Profile />} />
             <Route path="task" element={<Tasks />} />
             <Route path="room" element={<Room data='student' />} />
             <Route path='chat/:name' element={<Chat />} />
             <Route path="add_conference" element={<AddConference data="student" />} />
             <Route path="conf/:roomID" element={<Conference />} />
           </Route>
-        
+
         </Routes>
-      </>
+        </Router>
     </div>
-  )
+  );
 }
+
+
+export default App;
+
+
