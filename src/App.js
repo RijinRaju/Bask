@@ -8,7 +8,6 @@ import AddAdvisor from './Components/AddAdvisor/AddAdvisor';
 import ListAdvisors from './Components/ListAdvisors/ListAdvisors';
 import AdvisorLogin from './Components/AdvisorLogin/AdvisorLogin';
 import AdminLoginPage from './Pages/AdminLoginPage';
-import { NextUIProvider } from '@nextui-org/react';
 import AddTask from './Components/AddTask/AddTask';
 import TaskDomain from './Components/TaskView/TaskView';
 import UserHome from './Components/UserHome/UserHome';
@@ -32,13 +31,11 @@ function App() {
 
   return (
     <div className="App">
-      <NextUIProvider>
 
 
         <Router>
           <MainAppFunction />
         </Router>
-      </NextUIProvider>
     </div>
   );
 }
