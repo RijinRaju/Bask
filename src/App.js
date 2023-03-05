@@ -20,7 +20,6 @@ import Lists from './Components/Lists/Lists';
 import Manifests from './Components/Manifests/Manifests';
 import AdvisorHome from './Components/AdvisorHome/AdvisorHome';
 import Room from './Components/Room/Room';
-import { ProfileContext } from './Context/ProfileContext'
 import Report from './Components/Report/Report';
 import AddConference from './Components/AddConference/AddConference'
 import Conference from './Components/Conference/Conference'

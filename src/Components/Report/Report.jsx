@@ -260,4 +260,4 @@ useEffect(()=>{
     );
 }
 
-export default Report
+export default Report;
