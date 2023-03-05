@@ -55,7 +55,7 @@ const[imgFile,setImgFile]= useState(null)
       headers: { "content-type": "multipart/form-data" },
     };
 
-    axios.post('http://127.0.0.1:8000/admin/add_advisors',formdata,config).then(res=>{
+    axios.post('https://www.baskpro.online/admin/add_advisors',formdata,config).then(res=>{
       navigate('/adm_home/list_advisor')
     })
 

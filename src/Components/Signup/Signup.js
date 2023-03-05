@@ -50,7 +50,7 @@ const navigate = useNavigate()
 
   const signupFormSubmit = (e) => {
     console.log(e)
-    axios.post('http://127.0.0.1:8000/signup',{
+    axios.post('https://www.baskpro.online/signup',{
       first_name : e.firstName,
       last_name : e.lastName,
       email : e.email,
