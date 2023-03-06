@@ -260,7 +260,9 @@ function Profile() {
               }}
               className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
             >
+              <FormControl>
               <h4 className="font-sans p-2">Personal Details</h4>
+              </FormControl>
               <Box component="form" onSubmit={updateAddress}>
                 <FormControl component="fieldset">
                   {addresses ? (
