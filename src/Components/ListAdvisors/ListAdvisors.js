@@ -58,7 +58,7 @@ function ListAdvisors() {
   // api call for getting the listing advisors
 
   const list_adv = () => {
-    axios.get("http://127.0.0.1:8000/admin/list_advisors").then(res => {
+    axios.get("https://www.baskpro.online/admin/list_advisors").then(res => {
 
       setAdvisors(res.data)
     })
@@ -69,7 +69,7 @@ function ListAdvisors() {
   // api call for take the number of students which have no  advisors 
 
   const count_stud = () => {
-    axios.get("http://127.0.0.1:8000/admin/count_students").then(res => {
+    axios.get("https://www.baskpro.online/admin/count_students").then(res => {
 
       setCount(res.data)
 
@@ -80,7 +80,7 @@ function ListAdvisors() {
   // api call for alloting the advisors
 
   const submitAlloc = () => {
-    axios.post('http://127.0.0.1:8000/admin/allot_number', {
+    axios.post('https://www.baskpro.online/admin/allot_number', {
       counter: counter,
       id: id
     }).then((res) => {
@@ -115,7 +115,7 @@ function ListAdvisors() {
 
   // api call for removing the advisors
   const removeAdv = () => {
-    axios.post('http://127.0.0.1:8000/admin/remove_advisor', {
+    axios.post('https://www.baskpro.online/admin/remove_advisor', {
       id: id
     }).then((e) => {
       list_adv();

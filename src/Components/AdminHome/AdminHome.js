@@ -128,7 +128,7 @@ function AdminHome() {
     const [user, setUser] = useState(token ? jwtDecode(token).user_id : 0)
     useEffect(()=>{
         
-        axios.post('http://127.0.0.1:8000/admin/prf_load',{
+        axios.post('https://www.baskpro.online/admin/prf_load',{
             user:user
         }
         ).then((res) => {
@@ -156,7 +156,7 @@ function AdminHome() {
         let config = {
             headers:{'content-type':'multipart/form-data'}
         }
-        axios.post('http://127.0.0.1:8000/admin/prf_update',
+        axios.post('https://www.baskpro.online/admin/prf_update',
             formdata,config
 
         ).then((res)=>{

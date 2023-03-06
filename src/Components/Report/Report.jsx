@@ -47,17 +47,20 @@ function Report() {
 !advisor && setAdvisor(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
 useEffect(()=>{
 
-    axios.post("http://127.0.0.1:8000/advisor/adv_batchlst",{
-        user:advisor,
-        
-    }).then(res=>{
-        setBatch(res.data)
-    })
+    axios
+      .post("https://www.baskpro.online/advisor/adv_batchlst", {
+        user: advisor,
+      })
+      .then((res) => {
+        setBatch(res.data);
+      });
 
 
-    axios.post("http://127.0.0.1:8000/advisor/list_reports").then(res=>{
-        setLists(res.data)
-    })
+    axios
+      .post("https://www.baskpro.online/advisor/list_reports")
+      .then((res) => {
+        setLists(res.data);
+      });
 },[])
 
   const handleClickOpen = () => {
@@ -73,14 +76,14 @@ useEffect(()=>{
   const BatchFormSubmit = (e) => {
     console.log(e.students);
     axios
-      .post("http://127.0.0.1:8000/advisor/add_report", {
+      .post("https://www.baskpro.online/advisor/add_report", {
         students: e.students,
         eliminated: e.eliminated,
         note: e.notes,
         batch: e.batch,
       })
       .then((res) => {
-          console.log(res.data)
+        console.log(res.data);
         setLists(res.data);
         handleClickClose();
       });

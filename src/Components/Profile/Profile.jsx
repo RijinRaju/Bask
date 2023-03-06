@@ -43,15 +43,17 @@ function Profile() {
   const [snackbar, setSnackbar] = useState(false);
 
   const updateAddresses = () => {
-    axios.post("http://127.0.0.1:8000/fch_add", { user: user }).then((res) => {
-      console.log(res.data);
-      setAddresses(res.data);
-    });
+    axios
+      .post("https://www.baskpro.online/fch_add", { user: user })
+      .then((res) => {
+        console.log(res.data);
+        setAddresses(res.data);
+      });
   };
 
   const profiles = () => {
     axios
-      .post("http://127.0.0.1:8000/profile", {
+      .post("https://www.baskpro.online/profile", {
         id: user,
       })
       .then((e) => {
@@ -62,7 +64,7 @@ function Profile() {
   };
   useEffect(() => {
     profiles();
-    axios.get("http://127.0.0.1:8000/domains").then((res) => {
+    axios.get("https://www.baskpro.online/domains").then((res) => {
       setDomains(res.data);
     });
 
@@ -120,9 +122,9 @@ function Profile() {
     };
 
     axios
-      .post("http://127.0.0.1:8000/prf_update", formdata, config)
+      .post("https://www.baskpro.online/prf_update", formdata, config)
       .then((res) => {
-        handleSnackBarOpen()
+        handleSnackBarOpen();
         profiles();
         handleClose();
       });
@@ -139,7 +141,7 @@ function Profile() {
     e.preventDefault();
     console.log(address);
     axios
-      .post("http://127.0.0.1:8000/address", {
+      .post("https://www.baskpro.online/address", {
         user: user,
         dob: address.dob,
         age: address.age,

@@ -59,11 +59,11 @@ function AddBatch() {
   useEffect(() => {
   
    
-    axios.get("http://127.0.0.1:8000/admin/list_advisors").then((res) => {
+    axios.get("https://www.baskpro.online/admin/list_advisors").then((res) => {
       setAdvisor(res.data)
     });
 
-    axios.get("http://127.0.0.1:8000/admin/batch_list").then(res => {
+    axios.get("https://www.baskpro.online/admin/batch_list").then(res => {
       setProgress(false)
       setLists(res.data)
       console.log(res.data)
@@ -92,7 +92,7 @@ function AddBatch() {
 
   const BatchFormSubmit = (e) => {
     console.log(e.advisor)
-    axios.post('http://127.0.0.1:8000/admin/add_batch',
+    axios.post('https://www.baskpro.online/admin/add_batch',
       {
         batch_advisor: e.advisor,
         location: e.location,

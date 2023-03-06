@@ -136,7 +136,7 @@ function PendList(){
   const [selBatch,setSelBatch] = useState(0)
   const pendListFunction=()=>{
     
-     axios.post("http://127.0.0.1:8000/admin/pend_list").then((res) => {
+     axios.post("https://www.baskpro.online/admin/pend_list").then((res) => {
        setPendList(res.data);
        console.log(res.data);
      });
@@ -145,7 +145,7 @@ function PendList(){
   useEffect(()=>{
     pendListFunction()
 
-  axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
+  axios.get("https://www.baskpro.online/admin/batch_list").then((res) => {
     setBatch(res.data);
     console.log(res.data);
   });
@@ -163,13 +163,14 @@ function PendList(){
    };
 
    const handleDialogSubmit = (e)=>{
-     axios.post('http://127.0.0.1:8000/admin/decline',{
-       id:id
-     }).then((res)=>{
-           console.log(res.data)
-           pendListFunction()
-           
-     })
+     axios
+       .post("https://www.baskpro.online/admin/decline", {
+         id: id,
+       })
+       .then((res) => {
+         console.log(res.data);
+         pendListFunction();
+       });
      setOpen(false)
    }
 
@@ -229,10 +230,13 @@ function PendList(){
                       onClick={(res) => {
                         console.log(selBatch)
                         axios
-                          .post(` http://127.0.0.1:8000/admin/approve_list`, {
-                            student: list.id,
-                            batch: selBatch,
-                          })
+                          .post(
+                            ` https://www.baskpro.online/admin/approve_list`,
+                            {
+                              student: list.id,
+                              batch: selBatch,
+                            }
+                          )
                           .then((res) => {
                             pendListFunction();
                           });
