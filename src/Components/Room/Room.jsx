@@ -101,7 +101,7 @@ function Room(props) {
   if (receiver === "") return;
     setClient(
       new W3CWebsocket(
-        "wss://https://www.baskpro.online/ws/chat/" +
+        "wss://www.baskpro.online/ws/chat/" +
           receiver +
           "/" +
           user +
