@@ -67,18 +67,18 @@ function Manifests(props) {
     localStorage.getItem("AdvisorToken") &&
       setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
 
-    axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
+    axios.get("https://www.baskpro.online/admin/batch_list").then((res) => {
       setBatch(res.data);
     });
 
-    axios.get("http://127.0.0.1:8000/admin/weeks").then((res) => {
+    axios.get("https://www.baskpro.online/admin/weeks").then((res) => {
       setLstWeeks(res.data);
     });
   }, []);
 
   const listManifests = () => {
     axios
-      .post("http://127.0.0.1:8000/advisor/manifest", {
+      .post("https://www.baskpro.online/advisor/manifest", {
         user: stdid,
       })
       .then((res) => {
@@ -91,7 +91,7 @@ function Manifests(props) {
     e.preventDefault();
 
     axios
-      .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
+      .post("https://www.baskpro.online/advisor/upd_mnfst", {
         week: weekId,
         status: forms.status,
         week_task: forms.week_task,
@@ -108,7 +108,6 @@ function Manifests(props) {
         setSnackOpen("Manifest is Updated");
         setWeeks(res.data);
         listManifests();
-      
       });
   };
 
@@ -117,7 +116,7 @@ function Manifests(props) {
     console.log(forms);
 
     axios
-      .post("http://127.0.0.1:8000/advisor/upd_mnfst", {
+      .post("https://www.baskpro.online/advisor/upd_mnfst", {
         week: forms.week_select,
         status: forms.status,
         week_task: forms.week_task,
@@ -178,7 +177,7 @@ function Manifests(props) {
                     onClick={() => {
                       setLst(batch.id);
                       axios
-                        .post("http://127.0.0.1:8000/advisor/std_mnfst", {
+                        .post("https://www.baskpro.online/advisor/std_mnfst", {
                           id: batch.id,
                           user: user,
                         })
@@ -461,7 +460,7 @@ function Manifests(props) {
                       onClick={() => {
                         setLst(batch.id);
                         axios
-                          .post("http://127.0.0.1:8000/admin/stud_lst", {
+                          .post("https://www.baskpro.online/admin/stud_lst", {
                             id: batch.id,
                           })
                           .then((res) => {
@@ -490,7 +489,7 @@ function Manifests(props) {
                               setStdId(student.student.id);
                               axios
                                 .post(
-                                  "http://127.0.0.1:8000/advisor/manifest",
+                                  "https://www.baskpro.online/advisor/manifest",
                                   {
                                     user: student.student.id,
                                   }

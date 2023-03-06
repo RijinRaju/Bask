@@ -38,10 +38,10 @@ function Domains() {
       Authorization: `token ${token}`,
     };
     axios
-      .get("http://127.0.0.1:8000/admin/domains", { headers: data })
+      .get("https://www.baskpro.online/admin/domains", { headers: data })
       .then((res) => {
         setDomList(res.data);
-        setProgress(false)
+        setProgress(false);
       });
   };
 
@@ -81,7 +81,7 @@ function Domains() {
     };
 
     axios
-      .post("http://127.0.0.1:8000/admin/add_domain", formdata, config)
+      .post("https://www.baskpro.online/admin/add_domain", formdata, config)
       .then((e) => {
         setDomList(e.data);
       });
@@ -146,7 +146,7 @@ function Domains() {
                       onClick={() => {
                         axios
                           .delete(
-                            `http://127.0.0.1:8000/admin/dom_del/${domain.id}`
+                            `https://www.baskpro.online/admin/dom_del/${domain.id}`
                           )
                           .then((res) => {
                             console.log(res.data);

@@ -39,11 +39,11 @@ function CheckTask() {
      !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
 
     useEffect(() => {
-      axios.get("http://127.0.0.1:8000/admin/batch_list").then((res) => {
+      axios.get("https://www.baskpro.online/admin/batch_list").then((res) => {
         setBatch(res.data);
       });
 
-      axios.get("http://127.0.0.1:8000/admin/weeks").then((res) => {
+      axios.get("https://www.baskpro.online/admin/weeks").then((res) => {
         setLstWeeks(res.data);
       });
     }, [weeks]);
@@ -78,7 +78,7 @@ function CheckTask() {
                   onClick={() => {
                     setLst(batch.id);
                     axios
-                      .post("http://127.0.0.1:8000/advisor/std_mnfst", {
+                      .post("https://www.baskpro.online/advisor/std_mnfst", {
                         id: batch.id,
                         user: user,
                       })
@@ -107,9 +107,12 @@ function CheckTask() {
                         onClick={() => {
                           setStdId(student.student.id);
                           axios
-                            .post("http://127.0.0.1:8000/advisor/chk_task", {
-                              user: student.student.id,
-                            })
+                            .post(
+                              "https://www.baskpro.online/advisor/chk_task",
+                              {
+                                user: student.student.id,
+                              }
+                            )
                             .then((res) => {
                               console.log(res.data);
                               setWeeks(res.data);

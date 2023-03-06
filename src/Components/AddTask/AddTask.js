@@ -26,7 +26,7 @@ function AddTask() {
     const data = {
       Authorization: `token ${token}`,
     };
-    axios.get("http://127.0.0.1:8000/admin/domains", { headers: data }).then((res) => {
+    axios.get("https://www.baskpro.online/admin/domains", { headers: data }).then((res) => {
       setDomains(res.data);
     });
   }, []);
@@ -56,13 +56,13 @@ function AddTask() {
   const questionSubmit = (e) => {
     e.preventDefault()
     console.log(weeks, domain)
-    axios.post('http://127.0.0.1:8000/admin/add_task', {
+    axios.post('https://www.baskpro.online/admin/add_task', {
       task: questionField,
       week: weeks,
       domain: domain,
 
     }).then((e) => {
-      axios.post('http://127.0.0.1:8000/ws/notification/notify/').then((res) => {
+      axios.post('https://www.baskpro.online/ws/notification/notify/').then((res) => {
         console.log(res.data)
       })
       navigate('/adm_home/task_view')

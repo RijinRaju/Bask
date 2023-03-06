@@ -14,7 +14,7 @@ function TaskView() {
 const[task,setTask] = useState([])
 
 const tasks=()=>{
-  axios.post('http://127.0.0.1:8000/admin/task_view').then((res) => {
+  axios.post('https://www.baskpro.online/admin/task_view').then((res) => {
 
     setTask(res.data)
   })
@@ -46,7 +46,7 @@ const tasks=()=>{
             </Grid>
             <Grid item xs={3} >
               <button onClick={()=>{
-                axios.post('http://127.0.0.1:8000/del_tsk',{
+                  axios.post('https://www.baskpro.online/del_tsk',{
                   id:task.id
                 }).then((e)=>{
                       tasks()

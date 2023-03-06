@@ -56,19 +56,19 @@ function Room(props) {
   
   const DisplayChat = ()=>{
  axios
-   .post("http://127.0.0.1:8000/advisor/chat_record", {
+   .post("https://www.baskpro.online/advisor/chat_record", {
      sender: user,
      room_name: endUser,
    })
    .then((res) => {
      setAllMsg(res.data);
-     console.log("set all messsages",res.data);
+     console.log("set all messsages", res.data);
    });
   }
 
  const DisplayStudentChat = ()=>{
    axios
-     .post("http://127.0.0.1:8000/advisor/chat_record", {
+     .post("https://www.baskpro.online/advisor/chat_record", {
        sender: endUser,
        room_name: user,
      })
@@ -82,7 +82,7 @@ function Room(props) {
   useEffect(() => {
    
     axios
-      .post("http://127.0.0.1:8000/advisor/chat_list", {
+      .post("https://www.baskpro.online/advisor/chat_list", {
         id: user,
       })
       .then((res) => {
@@ -90,7 +90,7 @@ function Room(props) {
       });
     if(props.data == "student"){
      axios
-       .post("http://127.0.0.1:8000/adv_list", {
+       .post("https://www.baskpro.online/adv_list", {
          id: user,
        })
        .then((res) => {
@@ -99,10 +99,17 @@ function Room(props) {
   }
 
   if (receiver === "") return;
-    setClient( new W3CWebsocket(
-      "ws://127.0.0.1:8000/ws/chat/" + receiver + "/" + user + "/"+endUser+"/"
-    )
-    )
+    setClient(
+      new W3CWebsocket(
+        "ws://https://www.baskpro.online/ws/chat/" +
+          receiver +
+          "/" +
+          user +
+          "/" +
+          endUser +
+          "/"
+      )
+    );
     client.onopen = () => {
       console.log("ws open");
     };

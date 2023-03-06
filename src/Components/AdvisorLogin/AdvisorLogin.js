@@ -31,7 +31,7 @@ function AdvisorLogin() {
 
     const advisorLogin = (e) => {
 
-    axios.post('http://127.0.0.1:8000/api/token', {
+        axios.post('https://www.baskpro.online/api/token', {
 
         email: e.email,
         password: e.password,

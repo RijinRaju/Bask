@@ -51,7 +51,7 @@ function Task() {
   useEffect(() => {
     userDetails();
     axios
-      .post("http://127.0.0.1:8000/task_view", {
+      .post("https://www.baskpro.online/task_view", {
         id: user.user_id,
       })
       .then((res) => {
@@ -85,20 +85,17 @@ function Task() {
   const answerSubmit = (e, task) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/sub_answers", {
+      .post("https://www.baskpro.online/sub_answers", {
         question: task.id,
         answers: answers,
         user: user.user_id,
       })
       .then((res) => {
-
-       if (res.status === 208){
-         console.log("status",res.status);
-         setSnackOpen("task already submitted");
-
-       }
-        else if (res.status === 200){
-                   setSnackOpen("task submitted succesfully");
+        if (res.status === 208) {
+          console.log("status", res.status);
+          setSnackOpen("task already submitted");
+        } else if (res.status === 200) {
+          setSnackOpen("task submitted succesfully");
         }
       });
   };

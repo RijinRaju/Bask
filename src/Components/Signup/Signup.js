@@ -40,7 +40,7 @@ const navigate = useNavigate()
   useEffect(() => {
     
 
-     axios.get("http://127.0.0.1:8000/admin/domains")
+    axios.get("https://www.baskpro.online/admin/domains")
       .then((res) => {
         setDomains(res.data);
         console.log(res.data)
