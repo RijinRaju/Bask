@@ -123,7 +123,7 @@ function Task() {
                 return (
                   <div>
                     <Typography>
-                      <span style={{ color: "blue" }}> {t.id}.</span>{" "}
+                      <span style={{ color: "blue",margin:"2px", }}> {t.id}.</span>{" "}
                       {t.question}
                     </Typography>
                   </div>
@@ -132,14 +132,9 @@ function Task() {
               <Typography variant="h5">
                 Answers{" "}
                 {length < task.task.length ? (
-                  <IconButton
-                    color="primary"
-                    aria-label="add answers"
-                    onClick={addAnswer}
-                  >
-                    <Typography>Add Fields</Typography>
-                    <AddCommentIcon />
-                  </IconButton>
+                  <Button variant="contained" size="small" endIcon={<AddCommentIcon />}>
+                    Add Fields
+                  </Button>
                 ) : null}
               </Typography>
               {answers.map((input, index) => (
@@ -162,14 +157,34 @@ function Task() {
                   />
                 </>
               ))}
-              <Button type="submit" id={task.id}>
-                submit
-              </Button>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    width: "40vh",
+                    height: "25",
+                  }}
+                  id={task.id}
+                >
+                  submit
+                </Button>
+              </div>
             </Box>
           </AccordionDetails>
         </Accordion>
       ))}
-      {snackOpen?<SnackBar snack={true} msg={snackOpen}  setSnackOpen={setSnackOpen} />:""}
+      {snackOpen ? (
+        <SnackBar snack={true} msg={snackOpen} setSnackOpen={setSnackOpen} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -177,24 +177,38 @@ const[imgFile,setImgFile]= useState(null)
             className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
           sx={{
             height:"30vh",
-            width:"50vh"
+            width:"50vh",
+           
           }}
           
-          > <Avatar
+          >
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}> 
+          <Avatar
           src={img}
           sx={{
-            m:3,
+            m:1,
              width:100,
              height:100,
             
              }}
-             style={{
-               position:'relative',
-               left:'2em',
-             }}
+            
               >
             
             </Avatar>
+            </div>
+            <label style={{
+              margin:15,
+            }}>Upload Profile</label>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              
             <input
               type="file"
               id="img"
@@ -203,7 +217,7 @@ const[imgFile,setImgFile]= useState(null)
        
               onChange={handlePreview}
             />
-              
+              </div>
           </Paper>
           
         </Grid>

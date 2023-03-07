@@ -231,26 +231,37 @@ function Profile() {
                 </Grid>
               </Grid>
             </div>
-
-            <Button
-              variant="contained"
-              size="medium"
-              className="sub_btn"
-              sx={{
-                backgroundColor: "#10b981",
-                ":hover": {
-                  bgcolor: "black", // theme.palette.primary.main
-                  color: "white",
-                },
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-              onClick={handleClickOpen}
             >
-              Update
-            </Button>
+              <Button
+                variant="contained"
+                size="medium"
+                className="sub_btn"
+                sx={{
+                  backgroundColor: "#10b981",
+                  ":hover": {
+                    bgcolor: "black", // theme.palette.primary.main
+                    color: "white",
+                  },
+                  width:190,
+                  height:30,
+                }}
+                onClick={handleClickOpen}
+              >
+                Update
+              </Button>
+            </div>
           </Paper>
         </Grid>
 
         <Grid item xs={12} md={6}>
+          <h4 className="font-sans">Personal Details</h4>
+
           <Grid item xs={12} sx={{}}>
             <Paper
               sx={{
@@ -260,9 +271,6 @@ function Profile() {
               }}
               className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
             >
-              <FormControl>
-              <h4 className="font-sans p-2">Personal Details</h4>
-              </FormControl>
               <Box component="form" onSubmit={updateAddress}>
                 <FormControl component="fieldset">
                   {addresses ? (
@@ -281,6 +289,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -296,6 +305,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
 
@@ -306,12 +316,13 @@ function Profile() {
                             labelId="gender_label"
                             label="Gender"
                             name="gender"
-                            style={{ width: 210 }}
+                            style={{ width: 180, height: 50 }}
                             size="small"
                             defaultValue={address ? address.gender : ""}
                             onChange={addAddress}
                             sx={{
-                              m: 1,
+                              m: 3,
+                              p: 2,
                             }}
                             displayEmpty
                           >
@@ -334,6 +345,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -349,6 +361,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -364,6 +377,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -379,6 +393,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
 
@@ -395,6 +410,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -410,6 +426,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -425,6 +442,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -442,6 +460,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                         <TextField
@@ -459,6 +478,7 @@ function Profile() {
                           sx={{
                             mt: 1,
                             m: 1,
+                            p: 2,
                           }}
                         />
                       </FormGroup>
@@ -478,6 +498,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -494,6 +515,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
 
@@ -504,12 +526,13 @@ function Profile() {
                           labelId="gender_label"
                           label="Gender"
                           name="gender"
-                          style={{ width: 210 }}
+                          style={{ width: 180, height: 50 }}
                           size="small"
                           defaultValue={address ? address.gender : ""}
                           onChange={addAddress}
                           sx={{
-                            m: 1,
+                            m: 3,
+                            p: 2,
                           }}
                           displayEmpty
                         >
@@ -533,6 +556,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -549,6 +573,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -565,6 +590,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -581,6 +607,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
 
@@ -598,6 +625,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -614,6 +642,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -630,6 +659,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -648,6 +678,7 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                       <TextField
@@ -664,18 +695,27 @@ function Profile() {
                         sx={{
                           mt: 1,
                           m: 1,
+                          p: 2,
                         }}
                       />
                     </FormGroup>
                   )}
-                  <FormGroup row>
+                  <FormGroup
+                    row
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <Button
                       variant="contained"
                       type="submit"
                       sx={{
-                        height: 40,
+                        height: 30,
                         mt: 1,
                         m: 1,
+                        width: 190,
                         backgroundColor: "#10b981",
                         ":hover": {
                           bgcolor: "black", // theme.palette.primary.main

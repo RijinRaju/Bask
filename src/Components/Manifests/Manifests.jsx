@@ -151,13 +151,13 @@ function Manifests(props) {
 
   return (
     <div>
-      <Typography>Manifest</Typography>
       {snackOpen && (
         <SnackBar snack={true} msg={snackOpen} setSnackOpen={setSnackOpen} />
       )}
 
       {props.data === "advisor" ? (
         <Grid container>
+          <Typography>Manifest</Typography>
           <Grid item xs={12} sm={12} md={5}>
             <List
               sx={{ width: "90%", bgcolor: "background.paper" }}

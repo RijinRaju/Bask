@@ -51,6 +51,7 @@ function Room(props) {
   }
   else{
 !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
+console.log(user)
 
   }
   
@@ -87,6 +88,7 @@ function Room(props) {
       })
       .then((res) => {
         setStudent(res.data);
+        console.log(res.data)
       });
     if(props.data == "student"){
      axios
@@ -166,27 +168,38 @@ let sender = (e) => {
                       </ListSubheader>
                     }
                   >
-                    {student.map((student) => (
-                      <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
-                        <ListItemButton
-                          key={student.id}
-                          onClick={(e) => {
-                            setReceiver(student.student.id);
-                            setDisplayName(student.student.first_name);
-                            setEndUser(student.student.id);
-                            setMsg("");
-                            setAllMsg("");
+                    {student &&
+                      student.map((student) => (
+                        <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
+                          <ListItemButton
+                            key={student.id}
+                            onClick={(e) => {
+                              setReceiver(student.student.id);
+                              setDisplayName(student.student.first_name);
+                              setEndUser(student.student.id);
+                              setMsg("");
+                              setAllMsg("");
 
-                            DisplayChat()
-                          }}
-                        >
-                          <ListItemIcon>
-                            <Avatar alt={student.student.first_name}></Avatar>
-                          </ListItemIcon>
-                          <ListItemText primary={student.student.first_name} />
-                        </ListItemButton>
-                      </Paper>
-                    ))}
+                              DisplayChat();
+                            }}
+                          >
+                            <ListItemIcon>
+                              <Avatar
+                                alt={
+                                  student.student.first_name != null?
+                                  student.student.first_name: null
+                                }
+                              ></Avatar>
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                student.student.first_name &&
+                                student.student.first_name
+                              }
+                            />
+                          </ListItemButton>
+                        </Paper>
+                      ))}
                   </List>
                 </Paper>
               </Box>
@@ -235,7 +248,7 @@ let sender = (e) => {
                         <Box
                           key={msg.id}
                           sx={{
-                            width: '40vh',
+                            width: "40vh",
                             height: 50,
                             backgroundColor: "#B2B2B2",
 
@@ -254,7 +267,7 @@ let sender = (e) => {
                         <Box
                           key={msg.id}
                           sx={{
-                            width: '40vh',
+                            width: "40vh",
                             height: 50,
                             backgroundColor: "#B2B2B2",
                             borderRadius: "20px 20px 0px 20px",
@@ -273,7 +286,6 @@ let sender = (e) => {
                   ) : (
                     <Typography></Typography>
                   )}
-                 
                 </Paper>
                 <Stack
                   spacing={3}
@@ -333,7 +345,7 @@ let sender = (e) => {
                           setEndUser(advisor.id);
                           setMsg("");
                           setAllMsg("");
-                          DisplayStudentChat()
+                          DisplayStudentChat();
                         }}
                       >
                         <ListItemIcon>
@@ -390,10 +402,10 @@ let sender = (e) => {
                       <Box
                         key={msg.id}
                         sx={{
-                          width: '40vh',
+                          width: "40vh",
                           height: 50,
                           backgroundColor: "#B2B2B2",
-                          color:'white',
+                          color: "white",
                           borderRadius: "20px 20px 20px 0px",
                           mt: 2,
                           m: 3,
@@ -409,10 +421,10 @@ let sender = (e) => {
                       <Box
                         key={msg.id}
                         sx={{
-                          width: '40vh',
+                          width: "40vh",
                           height: 50,
                           backgroundColor: "#b2b2b2",
-                          color:'white',
+                          color: "white",
                           borderRadius: "20px 20px 0px 20px",
                           mt: 2,
                           m: 3,
@@ -425,7 +437,6 @@ let sender = (e) => {
                       </Box>
                     )
                   )}
-                
               </Paper>
               <Stack
                 spacing={3}

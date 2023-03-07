@@ -21,7 +21,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
+import Dialogs from '../Dialogs/Dialogs'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,7 +35,9 @@ function ListAdvisors() {
   const [id, setId] = useState(0)
   const [count, setCount] = useState([])
   const [counter, setCounter] = useState(0)
-
+  const[dialog,setDialog] = useState(null)
+  const[details,setDetails] = useState({})
+  const[search,setSearch] = useState('')
   const incrementCount = () => {
     count_stud()
     setCounter(counter => counter + 1)
@@ -113,6 +115,18 @@ function ListAdvisors() {
     setAllocOpen(false)
   }
 
+
+// search
+const searchResults=()=>{
+  if(search.length >1) {
+  console.log(search)
+  setAdvisors(advisors.filter(adv=>adv.first_name.includes(search)))
+  }
+  else{
+    list_adv()
+  }
+}
+
   // api call for removing the advisors
   const removeAdv = () => {
     axios.post('https://www.baskpro.online/admin/remove_advisor', {
@@ -125,13 +139,41 @@ function ListAdvisors() {
 
   return (
     <div>
-      <span className="font-sans text-blue-700 font-semibold text-lg">Advisors </span>
+      {dialog && (
+        <Dialogs dialog={true} details={details} setDialog={setDialog} />
+      )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TextField
+          id="outlined-basic"
+          label="search"
+          size="small"
+          variant="outlined"
+          sx={{
+            position: "absolute",
+            backgroundColor:'white'
+          }}
+          name="search"
+          onChange={(e) => {
+            setSearch(e.target.value);
+            searchResults();
+          }}
+        />
+      </div>
+      <span className="font-sans text-blue-700 font-semibold text-lg">
+        Advisors{" "}
+      </span>
 
       <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
         <Card>
           {advisors.map((advisor) => {
-            let image_url = advisor.img
-            let img_name = ''
+            let image_url = advisor.img;
+            let img_name = "";
             if (image_url != null) {
               img_name = advisor.img.replace(
                 "/Frontend/src/Assests/Advisors/",
@@ -139,9 +181,7 @@ function ListAdvisors() {
               );
             }
             return (
-
               <Grid container spacing={3} key={advisor.id}>
-
                 <Grid item xs={3} className="grid_1">
                   <CardMedia
                     component="img"
@@ -160,9 +200,16 @@ function ListAdvisors() {
                       m: 3,
                     }}
                   >
-                    <Typography gutterBottom variant="p" component="div">
-                      NAME:{advisor.first_name.toUpperCase()}
-                    </Typography>
+                    <Button
+                      onClick={() => {
+                        setDetails(advisor);
+                        setDialog("dialog popup");
+                      }}
+                    >
+                      <Typography gutterBottom variant="p" component="div">
+                        NAME:{advisor.first_name.toUpperCase()}
+                      </Typography>
+                    </Button>
                     <Typography variant="body2" color="text.secondary">
                       ROLE:{advisor.role}
                     </Typography>
@@ -178,20 +225,22 @@ function ListAdvisors() {
                       m: 3,
                     }}
                   >
-                    <Button size="small"
+                    <Button
+                      size="small"
                       onClick={() => {
-                        setId(advisor.id)
-                        handleAllocOpen()
+                        setId(advisor.id);
+                        handleAllocOpen();
                       }}
-
                     >
                       Allocate
                     </Button>
-                    <Button size="small" onClick={() => {
-                      setId(advisor.id)
-                      handleClickOpen()
-
-                    }}>
+                    <Button
+                      size="small"
+                      onClick={() => {
+                        setId(advisor.id);
+                        handleClickOpen();
+                      }}
+                    >
                       Remove
                     </Button>
                   </CardActions>
@@ -218,10 +267,9 @@ function ListAdvisors() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={removeAdv} >Delete</Button>
+          <Button onClick={removeAdv}>Delete</Button>
         </DialogActions>
       </Dialog>
-
 
       {/* students allocate */}
       <Dialog
@@ -243,54 +291,74 @@ function ListAdvisors() {
                   justifyContent="center"
                   alignItems="center"
                   sx={{
-                    bgcolor: 'primary.main',
+                    bgcolor: "primary.main",
                     width: 40,
                     height: 40,
-                    borderRadius: '50%'
-                    , color: 'white',
-                    ml: 1
-                  }}>
+                    borderRadius: "50%",
+                    color: "white",
+                    ml: 1,
+                  }}
+                >
                   {count.count}
                 </Box>
-
-
               </Fab>
             </Grid>
-            <Grid item xs={12} >
-              <DialogContentText id="alert-dialog-slide-description" >
+            <Grid item xs={12}>
+              <DialogContentText id="alert-dialog-slide-description">
                 Add Number of Students
               </DialogContentText>
-              <ButtonGroup style={{ height: '3vh' }}>
+              <ButtonGroup style={{ height: "3vh" }}>
                 {counter ? (
-                  <Button onClick={decrementCount} style={{
-                    borderRadius: 9, marginRight: '10px', padding: '15px',
-                    backgroundColor: '#1976d2',
-                    color:'white'
-                  }} >
+                  <Button
+                    onClick={decrementCount}
+                    style={{
+                      borderRadius: 9,
+                      marginRight: "10px",
+                      padding: "15px",
+                      backgroundColor: "#1976d2",
+                      color: "white",
+                    }}
+                  >
                     <RemoveIcon />
                   </Button>
                 ) : (
-                    <Button disabled onClick={decrementCount} style={{
-                      borderRadius: 9, marginRight: '10px', padding: '15px',
-                     
-                    }} >
+                  <Button
+                    disabled
+                    onClick={decrementCount}
+                    style={{
+                      borderRadius: 9,
+                      marginRight: "10px",
+                      padding: "15px",
+                    }}
+                  >
                     <RemoveIcon />
                   </Button>
                 )}
 
-
-                <TextField type="number" value={counter} InputProps={{
-                  inputProps: {
-                    max: 10, min: 1
-                  }
-                }}
+                <TextField
+                  type="number"
+                  value={counter}
+                  InputProps={{
+                    inputProps: {
+                      max: 10,
+                      min: 1,
+                    },
+                  }}
                   variant="outlined"
                   size="small"
-                  style={{ height: '3rem', }}
-                  disabled ></TextField>
-                <Button onClick={incrementCount} style={{
-                  borderRadius: 9, marginLeft: '10px', padding: '15px', backgroundColor: '#1976d2',
-                  color:'white' }} >
+                  style={{ height: "3rem" }}
+                  disabled
+                ></TextField>
+                <Button
+                  onClick={incrementCount}
+                  style={{
+                    borderRadius: 9,
+                    marginLeft: "10px",
+                    padding: "15px",
+                    backgroundColor: "#1976d2",
+                    color: "white",
+                  }}
+                >
                   <AddIcon />
                 </Button>
               </ButtonGroup>
@@ -298,8 +366,8 @@ function ListAdvisors() {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAllocClose}>Disagree</Button>
-          <Button onClick={submitAlloc} >Agree</Button>
+          <Button onClick={handleAllocClose}>cancel</Button>
+          <Button onClick={submitAlloc}>Allocate</Button>
         </DialogActions>
       </Dialog>
     </div>

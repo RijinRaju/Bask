@@ -73,12 +73,13 @@ function AddTask() {
 
   return (
     <Grid container justify="center" spacing={3} component="form" onSubmit={(e) => questionSubmit(e)} >
-      <span className="font-sans text-blue-700 font-semibold text-lg">CreateTask </span>
+      
 
       <Grid item xs={12} md={3}>
-
+        <span className="font-sans text-blue-700 font-semibold text-lg p-2">CreateTask </span>
         <Card
-          elevation={3}
+
+          className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)] "
           sx={{
             mr: 6,
             display:'flex',
@@ -88,7 +89,7 @@ function AddTask() {
           }}
           
         >
-          <div className="card1_div">
+          <div className="card1_div ">
             <label for="email-field" class="placeholder">Week </label>
             <Select
               className="week_selct"
@@ -148,8 +149,8 @@ function AddTask() {
       </Grid>
 
       <Grid item xs={12} md={8}>
-        <Paper style={{ overflow: 'auto', maxHeight: 500, backgroundColor: '#e6ddf9', }} elevation={3}>
-          <Paper elevation={3} style={{ backgroundColor: '#1976d2' }}>
+        <Paper style={{ overflow: 'auto', maxHeight: 500, backgroundColor: '#e6ddf9', }} className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]">
+          <Paper className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]" style={{ backgroundColor: '#1976d2' }}>
 
             <Button variant="contained" className="add_btn" onClick={addField}><AddCircleOutlineIcon /></Button>
           </Paper>
@@ -162,7 +163,7 @@ function AddTask() {
                 <Typography>{index + 1}.</Typography>
                 <textarea
                   name={index}
-                  style={{ backgroundColor: 'white', height: '10vh', border: 0 }}
+                  style={{ backgroundColor: 'white', height: '10vh', border: 0,}}
                   defaultValue={input.question}
                   onChange={(e) => handleFormChange(index, e)}
                   className="qus_area"
