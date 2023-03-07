@@ -216,7 +216,9 @@ function Manifests(props) {
                             label="CREATE"
                             variant="outlined"
                             style={{
-                              backgroundColor: "#9346a6",
+                              backgroundColor: "#0a66c2",
+                              color:'white',
+                              border:0,
                             }}
                             onClick={handleClickOpen}
                           />

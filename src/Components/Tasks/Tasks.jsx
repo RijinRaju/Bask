@@ -132,7 +132,7 @@ function Task() {
               <Typography variant="h5">
                 Answers{" "}
                 {length < task.task.length ? (
-                  <Button variant="contained" size="small" endIcon={<AddCommentIcon />}>
+                  <Button variant="contained" size="small" endIcon={<AddCommentIcon />} onClick={addAnswer}>
                     Add Fields
                   </Button>
                 ) : null}

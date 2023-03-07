@@ -248,8 +248,8 @@ function Profile() {
                     bgcolor: "black", // theme.palette.primary.main
                     color: "white",
                   },
-                  width:190,
-                  height:30,
+                  width: 190,
+                  height: 30,
                 }}
                 onClick={handleClickOpen}
               >
@@ -260,8 +260,6 @@ function Profile() {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <h4 className="font-sans">Personal Details</h4>
-
           <Grid item xs={12} sx={{}}>
             <Paper
               sx={{
@@ -272,7 +270,13 @@ function Profile() {
               className="!shadow-[0px_0px_0px_1px_rgba(0,0,0,0.1)]"
             >
               <Box component="form" onSubmit={updateAddress}>
-                <FormControl component="fieldset">
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    p: 4,
+                  }}
+                >
+                  <h4 className="font-sans ">Personal Details</h4>
                   {addresses ? (
                     addresses.map((address) => (
                       <FormGroup row>
@@ -287,9 +291,9 @@ function Profile() {
                           defaultValue={address ? address.dob : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 4,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -303,9 +307,9 @@ function Profile() {
                           defaultValue={address ? address.age : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 4,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
 
@@ -316,13 +320,14 @@ function Profile() {
                             labelId="gender_label"
                             label="Gender"
                             name="gender"
-                            style={{ width: 180, height: 50 }}
+                            style={{ width: 210, height: 40 }}
                             size="small"
                             defaultValue={address ? address.gender : ""}
                             onChange={addAddress}
                             sx={{
-                              m: 3,
-                              p: 2,
+                              mt: 3,
+                              m: 1,
+                              mb: "10px",
                             }}
                             displayEmpty
                           >
@@ -343,9 +348,9 @@ function Profile() {
                           defaultValue={address ? address.father_name : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -359,9 +364,9 @@ function Profile() {
                           defaultValue={address ? address.father_contact : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -375,9 +380,9 @@ function Profile() {
                           defaultValue={address ? address.mother_name : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -391,9 +396,9 @@ function Profile() {
                           defaultValue={address ? address.mother_contact : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
 
@@ -408,9 +413,9 @@ function Profile() {
                           defaultValue={address ? address.address : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -424,9 +429,9 @@ function Profile() {
                           defaultValue={address ? address.village : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -440,9 +445,9 @@ function Profile() {
                           defaultValue={address ? address.taluk : ""}
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -458,9 +463,9 @@ function Profile() {
                           }
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                         <TextField
@@ -476,9 +481,9 @@ function Profile() {
                           }
                           onChange={addAddress}
                           sx={{
-                            mt: 1,
+                            mt: 2,
                             m: 1,
-                            p: 2,
+                            mb: "10px",
                           }}
                         />
                       </FormGroup>
@@ -496,9 +501,9 @@ function Profile() {
                         defaultValue={address ? address.dob : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -513,9 +518,9 @@ function Profile() {
                         defaultValue={address ? address.age : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
 
@@ -531,8 +536,9 @@ function Profile() {
                           defaultValue={address ? address.gender : ""}
                           onChange={addAddress}
                           sx={{
-                            m: 3,
-                            p: 2,
+                            mt: 2,
+                            m: 1,
+                            mb: "10px",
                           }}
                           displayEmpty
                         >
@@ -554,9 +560,9 @@ function Profile() {
                         defaultValue={address ? address.father_name : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -571,9 +577,9 @@ function Profile() {
                         defaultValue={address ? address.father_contact : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -588,9 +594,9 @@ function Profile() {
                         defaultValue={address ? address.mother_name : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -605,9 +611,9 @@ function Profile() {
                         defaultValue={address ? address.mother_contact : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
 
@@ -623,9 +629,9 @@ function Profile() {
                         defaultValue={address ? address.address : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -640,9 +646,9 @@ function Profile() {
                         defaultValue={address ? address.village : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -657,9 +663,9 @@ function Profile() {
                         defaultValue={address ? address.taluk : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -676,9 +682,9 @@ function Profile() {
                         }
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                       <TextField
@@ -693,9 +699,9 @@ function Profile() {
                         defaultValue={address ? address.collage_or_school : ""}
                         onChange={addAddress}
                         sx={{
-                          mt: 1,
+                          mt: 2,
                           m: 1,
-                          p: 2,
+                          mb: "10px",
                         }}
                       />
                     </FormGroup>

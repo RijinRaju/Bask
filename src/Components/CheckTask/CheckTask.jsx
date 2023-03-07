@@ -19,6 +19,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import jwtDecode from 'jwt-decode';
+import Button from '@mui/material/Button'
+import Chip from "@mui/material/Chip";
 
 function CheckTask() {
 
@@ -34,6 +36,7 @@ function CheckTask() {
     const[user,setUser] = useState(0)
     const[stdId,setStdId] = useState(0)
     const[question,setQuestion] = useState([])
+    const[verify,setVerify] = useState(false)
 
 
      !user && setUser(jwtDecode(localStorage.getItem("AdvisorToken")).user_id);
@@ -51,6 +54,9 @@ function CheckTask() {
      const handleListClick = () => {
        setListOpen(!listOpen);
      };
+
+
+
   return (
     <div>
       <Typography>Task Verify</Typography>
@@ -146,7 +152,14 @@ function CheckTask() {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
+                  <Grid container>
+                  <Grid item xs={6}>
                   <Typography>Week{week.question.week}</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                  {verify && week.status ? <Chip label="completed" variant="outlined" color="success" />:null}
+                  </Grid>
+                  </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
                   {week.question.task.map((ques) => (
@@ -164,6 +177,36 @@ function CheckTask() {
                       {ans.answers}
                     </Typography>
                   ))}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "end",
+                      alignItems: "end",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="success"
+                      size="small"
+                      sx={{ mr: 2 }}
+                      onClick={() => {
+                        axios
+                          .post(
+                            "https://www.baskpro.online/advisor/task_verify",
+                            {
+                              task_id: week.id,
+                            }
+                          )
+                          .then((res) => {
+                            if(res.status == 200){
+                              setVerify(true)
+                            }
+                          });
+                      }}
+                    >
+                      completed
+                    </Button>
+                  </div>
                 </AccordionDetails>
               </Accordion>
             ))}
