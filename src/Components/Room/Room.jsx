@@ -186,8 +186,9 @@ let sender = (e) => {
                             <ListItemIcon>
                               <Avatar
                                 alt={
-                                  student.student.first_name != null?
-                                  student.student.first_name: null
+                                  student.student.first_name != null
+                                    ? student.student.first_name
+                                    : null
                                 }
                               ></Avatar>
                             </ListItemIcon>
@@ -250,8 +251,8 @@ let sender = (e) => {
                           sx={{
                             width: "40vh",
                             height: 50,
-                            backgroundColor: "#B2B2B2",
-
+                            backgroundColor: "#2965e6",
+                            color: "white",
                             borderRadius: "20px 20px 0px 20px",
                             mt: 2,
                             m: 3,
@@ -269,7 +270,8 @@ let sender = (e) => {
                           sx={{
                             width: "40vh",
                             height: 50,
-                            backgroundColor: "#B2B2B2",
+                            backgroundColor: "#2965e6",
+                            color: "white",
                             borderRadius: "20px 20px 0px 20px",
                             mt: 2,
                             m: 3,
@@ -297,9 +299,9 @@ let sender = (e) => {
                     name="message"
                     ref={clearText}
                     placeholder=" write something...."
-                    style={{ width: "90vh", height: "5vh", margin: "2vh" }}
+                    style={{ width: "90vh", height: "5vh", margin: "2vh"}}
                     className="bg-gray-300 rounded-lg "
-                    InputProps={{ disableUnderline: true }}
+                    InputProps={{ disableUnderline: true,sx:{ml:2} }}
                     {...register("message", { required: true })}
                   />
 
@@ -404,7 +406,7 @@ let sender = (e) => {
                         sx={{
                           width: "40vh",
                           height: 50,
-                          backgroundColor: "#B2B2B2",
+                          backgroundColor: "#2965e6",
                           color: "white",
                           borderRadius: "20px 20px 20px 0px",
                           mt: 2,
@@ -423,7 +425,7 @@ let sender = (e) => {
                         sx={{
                           width: "40vh",
                           height: 50,
-                          backgroundColor: "#b2b2b2",
+                          backgroundColor: "#2965e6",
                           color: "white",
                           borderRadius: "20px 20px 0px 20px",
                           mt: 2,
@@ -449,7 +451,7 @@ let sender = (e) => {
                   placeholder="write something...."
                   style={{ width: "90vh", height: "5vh", margin: "20px" }}
                   className="bg-gray-300 rounded-lg "
-                  InputProps={{ disableUnderline: true }}
+                  InputProps={{ disableUnderline: true , sx:{ml:2} }}
                   {...register("message", { required: true })}
                 />
 
